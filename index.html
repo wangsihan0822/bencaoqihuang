@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-zh="本草山东 · 齐鲁道地药材文化" data-en="Herbal Shandong · Authentic Herbs Culture">本草山东 · 齐鲁道地药材文化</title>
+<style>
+:root{
+    --ochre: #a67c52;         /* 赭石色：传统国画风点缀 */
+    --ink-blue: #4a6670;      /* 石青色：山海主题点缀 */
+    --cinnabar: #b85c50;      /* 朱砂色：重点内容少量点缀 */
+    --gold-gradient: linear-gradient(135deg, #d4af6a 0%, #b8925a 50%, #8f703f 100%); /* 鎏金渐变 */
+    /* 宣纸肌理：内联SVG，无需外部图片 */
+    --paper-texture: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    /* 本草卷草暗纹：低透明度连续纹样 */
+    --herbal-pattern: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 10c-5 10-15 15-25 15 5 10 15 15 25 10 10 5 20 0 25-10-10 0-20-5-25-15z' fill='%23405b42' opacity='0.06'/%3E%3Cpath d='M10 40c10-5 15-15 15-25 10 5 15 15 10 25 5 10 0 20-10 25 0-10-5-20-15-25z' fill='%23405b42' opacity='0.06'/%3E%3Cpath d='M70 40c-10-5-15-15-15-25-10 5-15 15-10 25-5 10 0 20 10 25 0-10 5-20 15-25z' fill='%23405b42' opacity='0.06'/%3E%3Cpath d='M40 70c-5-10-15-15-25-15 5-10 15-15 25-10 10-5 20 0 25 10-10 0-20 5-25 15z' fill='%23405b42' opacity='0.06'/%3E%3C/svg%3E");
+    /* 山水云纹：用于板块装饰 */
+    --cloud-mountain: url("data:image/svg+xml,%3Csvg width='120' height='40' viewBox='0 0 120 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30 Q20 10 40 25 T80 20 T120 30 L120 40 L0 40 Z' fill='%23405b42' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+/* ========== 新增：全局背景肌理与暗纹 ========== */
+body{
+    background-image: var(--paper-texture), var(--herbal-pattern), linear-gradient(180deg,var(--bg-green),var(--warm-bg));
+    background-size: 200px 200px, 80px 80px, 100% 100%;
+    background-attachment: fixed;
+    animation: patternBreath 8s ease-in-out infinite alternate;
+}
+@keyframes patternBreath{
+    from{background-position: 0 0, 0 0, 0 0;}
+    to{background-position: 10px 10px, 4px 4px, 0 0;}
+}
+
+/* ========== 新增：标题两侧本草叶纹装饰 ========== */
+.section-title h2{
+    position: relative;
+    display: inline-block;
+    padding: 0 60px;
+}
+.section-title h2::before,
+.section-title h2::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 20px;
+    transform: translateY(-50%);
+    background: var(--herbal-pattern);
+    background-size: contain;
+    opacity: 0.6;
+}
+.section-title h2::before{left: 0; transform: translateY(-50%) scaleX(-1);}
+.section-title h2::after{right: 0;}
+
+/* 分隔线升级为鎏金渐变 */
+.divider, .card-line{
+    background: var(--gold-gradient);
+    border-radius: 2px;
+}
+
+/* ========== 新增：首页Hero区山海装饰 ========== */
+.hero::before,.hero::after{
+    border: none;
+    background: var(--cloud-mountain);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 180px;
+    height: 60px;
+    border-radius: 0;
+    opacity: 0;
+}
+.hero::before{top: 100px; left: 5%; transform: rotate(-5deg);}
+.hero::after{bottom: 80px; right: 5%; transform: rotate(5deg) scaleX(-1);}
+
+/* ========== 新增：齐鲁风物板块山水边框 ========== */
+.region-box{
+    position: relative;
+    overflow: hidden;
+}
+.region-box::before{
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(74, 102, 112, 0.1);
+    border-radius: 16px;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(74,102,112,0.03) 0%, transparent 50%);
+}
+.region-map{
+    background-image: var(--paper-texture), radial-gradient(circle, rgba(64,91,66,0.05) 1px, transparent 1px);
+    background-size: 200px 200px, 20px 20px;
+}
+
+/* ========== 新增：本草卡片专属药材暗纹+悬停特效 ========== */
+.card{
+    position: relative;
+    overflow: hidden;
+}
+.card::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: 60% 60%;
+    background-position: 110% 110%;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+.card:hover::before{
+    opacity: 0.15;
+    background-position: 100% 100%;
+    transform: scale(1.1);
+}
+/* 每张卡片匹配对应药材纹理 */
+.card-1::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='20' fill='%23f5d76e'/%3E%3Ccircle cx='35' cy='40' r='12' fill='%23fff'/%3E%3Ccircle cx='65' cy='40' r='12' fill='%23fff'/%3E%3C/svg%3E");} /* 金银花 */
+.card-2::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 80 Q50 20 80 80' stroke='%23b8925a' fill='none' stroke-width='2'/%3E%3Cpath d='M30 80 Q50 30 70 80' stroke='%23b8925a' fill='none' stroke-width='2'/%3E%3C/svg%3E");} /* 阿胶-水纹 */
+.card-3::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 20 L50 80 M30 40 L50 50 L70 40 M30 60 L50 70 L70 60' stroke='%23a67c52' fill='none' stroke-width='2'/%3E%3C/svg%3E");} /* 丹参-根茎纹 */
+.card-4::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 15 L50 85 M35 30 L50 45 L65 30 M30 55 L50 70 L70 55' stroke='%234a6670' fill='none' stroke-width='2'/%3E%3C/svg%3E");} /* 西洋参-掌状叶 */
+.card-5::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='50,20 65,40 60,70 40,70 35,40' fill='%238f703f' opacity='0.5'/%3E%3C/svg%3E");} /* 全蝎-山石纹 */
+.card-6::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='50' cy='60' rx='25' ry='15' fill='%238f703f' opacity='0.3'/%3E%3Cpath d='M50 30 Q40 45 50 60 Q60 45 50 30' fill='%238f703f' opacity='0.4'/%3E%3C/svg%3E");} /* 蟾酥-湿地纹 */
+.card-7::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 20 L50 80 M25 40 L50 50 L75 40 M30 60 L50 70 L70 60' stroke='%23f5d76e' fill='none' stroke-width='2'/%3E%3C/svg%3E");} /* 黄芩-穗状花 */
+.card-8::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L50 90' stroke='%23d4c5a9' stroke-width='4'/%3E%3Ccircle cx='50' cy='30' r='8' fill='%23d4c5a9' opacity='0.5'/%3E%3Ccircle cx='50' cy='60' r='10' fill='%23d4c5a9' opacity='0.5'/%3E%3C/svg%3E");} /* 北沙参-根茎 */
+.card-9::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='25' fill='%23e6a26e' opacity='0.4'/%3E%3Cpath d='M50 25 Q70 40 50 75 Q30 40 50 25' fill='%23405b42' opacity='0.3'/%3E%3C/svg%3E");} /* 瓜蒌-果实藤蔓 */
+.card-10::before{background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='55' r='22' fill='%23b85c50' opacity='0.4'/%3E%3Cpath d='M50 30 L45 20 L55 20 Z' fill='%23405b42' opacity='0.5'/%3E%3C/svg%3E");} /* 山楂-红果 */
+
+/* 卡片悬停鎏金描边特效 */
+.card:hover{
+    box-shadow: 0 12px 30px rgba(64,91,66,0.12), 0 0 0 1px rgba(184,146,90,0.3);
+}
+.card-top::after{
+    background: linear-gradient(transparent, rgba(255,255,255,0.4), var(--gold-gradient));
+    opacity: 0;
+    transition: 0.4s ease;
+}
+.card:hover .card-top::after{
+    opacity: 0.2;
+}
+
+/* ========== 新增：弹窗缠枝纹装饰 ========== */
+.popup{
+    position: relative;
+    background-image: var(--paper-texture);
+    background-size: 200px 200px;
+}
+.popup::before,
+.popup::after{
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--herbal-pattern);
+    background-size: contain;
+    opacity: 0.1;
+    pointer-events: none;
+}
+.popup::before{top: 10px; left: 10px;}
+.popup::after{bottom: 10px; right: 10px; transform: rotate(180deg);}
+
+/* ========== 新增：按钮与标签质感升级 ========== */
+.lang-btn, .tag{
+    background-image: var(--paper-texture);
+    background-size: 100% 100%;
+    transition: all 0.3s ease;
+}
+.lang-btn:hover{
+    background: var(--gold-gradient);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(184,146,90,0.3);
+}
+.tag:hover{
+    background: var(--main-green);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* 返回顶部按钮升级 */
+.back-top{
+    background: var(--gold-gradient);
+    box-shadow: 0 4px 12px rgba(184,146,90,0.3);
+}
+.back-top:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(184,146,90,0.4);
+}
+
+/* ========== 新增：创作理念板块图标动效 ========== */
+.concept-icon{
+    background: linear-gradient(135deg, var(--bg-green), #fff);
+    transition: all 0.4s ease;
+}
+.concept-item:hover .concept-icon{
+    background: var(--main-green);
+    color: #fff;
+    transform: rotateY(15deg) scale(1.05);
+    box-shadow: 0 6px 16px rgba(64,91,66,0.15);
+}
+
+/* ========== 移动端适配：简化花纹 ========== */
+@media(max-width:768px){
+    body{
+        background-size: 200px 200px, 120px 120px, 100% 100%;
+    }
+    .section-title h2{padding: 0 40px;}
+    .section-title h2::before,
+    .section-title h2::after{width: 30px;}
+    .hero::before,.hero::after{width: 100px; height: 35px;}
+}
+:root {
+  --ink: #2b2118;
+  --paper: #f5f0e8;
+  --paper-warm: #ede4d3;
+  --jade: #4a7c6f;
+  --jade-light: #6a9e8f;
+  --cinnabar: #b5443a;
+  --gold: #c9a05c;
+  --gold-light: #e0c48a;
+  --mist: #d8d0c2;
+  --text-mid: #6b5e50;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+/* ===== 导航 ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  transition: background 0.5s, padding 0.5s, box-shadow 0.5s;
+}
+.nav.scrolled {
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(12px);
+  padding: 12px 48px;
+  box-shadow: 0 1px 20px rgba(43,33,24,0.08);
+}
+.nav-logo {
+  font-size: 1.35rem; font-weight: 700; letter-spacing: 0.15em;
+  color: var(--ink); text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo .seal {
+  width: 34px; height: 34px; border: 2px solid var(--cinnabar);
+  border-radius: 4px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; color: var(--cinnabar); font-weight: 700;
+  transform: rotate(-3deg);
+}
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--ink); font-size: 0.92rem;
+  letter-spacing: 0.1em; position: relative; padding-bottom: 4px;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px;
+  background: var(--cinnabar); transition: width 0.35s;
+}
+.nav-links a:hover { color: var(--cinnabar); }
+.nav-links a:hover::after { width: 100%; }
+.lang-btn {
+  padding: 6px 14px; border: 1px solid var(--cinnabar);
+  border-radius: 20px; background: transparent;
+  color: var(--cinnabar); font-size: 0.85rem; cursor: pointer;
+  transition: 0.3s;
+}
+.lang-btn:hover { background: var(--cinnabar); color: #fff; }
+
+/* ===== 首页 ===== */
+.hero {
+  position: relative; height: 100vh; min-height: 620px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(170deg, #2b2118 0%, #3d3228 40%, #4a3f33 70%, #5c5044 100%);
+}
+.hero-canvas {
+  position: absolute; inset: 0; z-index: 1;
+}
+.hero-mountains {
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 55%;
+  z-index: 2;
+}
+.hero-mountains svg { width: 100%; height: 100%; }
+.hero-content {
+  position: relative; z-index: 10; text-align: center;
+  padding: 0 24px;
+}
+.hero-title-main {
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 900; letter-spacing: 0.25em;
+  color: #f5f0e8;
+  text-shadow: 0 0 60px rgba(201,160,92,0.35), 0 4px 30px rgba(0,0,0,0.4);
+  opacity: 0; transform: translateY(40px) scale(0.96);
+  animation: titleReveal 1.6s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+}
+.hero-sub {
+  font-size: clamp(0.9rem, 2vw, 1.25rem);
+  letter-spacing: 0.5em; color: var(--gold-light);
+  margin-top: 18px;
+  opacity: 0; transform: translateY(24px);
+  animation: titleReveal 1.4s cubic-bezier(0.16,1,0.3,1) 1.2s forwards;
+}
+.hero-line {
+  width: 0; height: 1px; background: var(--gold);
+  margin: 28px auto 0;
+  animation: lineGrow 1.2s ease 1.6s forwards;
+}
+.hero-tagline {
+  margin-top: 22px; font-size: 0.85rem; letter-spacing: 0.3em;
+  color: rgba(245,240,232,0.6);
+  opacity: 0; animation: titleReveal 1s ease 2s forwards;
+}
+@keyframes titleReveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes lineGrow {
+  to { width: 120px; }
+}
+.particle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,160,92,0.6), rgba(201,160,92,0));
+  animation: floatUp linear infinite;
+  z-index: 4;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-100vh) translateX(40px) scale(0.3); opacity: 0; }
+}
+.scroll-hint {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  z-index: 10; text-align: center;
+  opacity: 0; animation: titleReveal 1s ease 2.8s forwards;
+}
+.scroll-hint span {
+  display: block; font-size: 0.7rem; letter-spacing: 0.3em;
+  color: rgba(245,240,232,0.45); margin-bottom: 10px;
+}
+.scroll-hint .arrow {
+  width: 1px; height: 36px; background: linear-gradient(to bottom, rgba(201,160,92,0.6), transparent);
+  margin: 0 auto; animation: pulseDown 2s ease-in-out infinite;
+}
+@keyframes pulseDown {
+  0%, 100% { transform: scaleY(1); opacity: 0.6; }
+  50% { transform: scaleY(0.6); opacity: 1; }
+}
+
+/* ===== 通用板块 ===== */
+.section {
+  padding: 100px 48px; max-width: 1240px; margin: 0 auto;
+}
+.section-label {
+  display: inline-block; font-size: 0.72rem; letter-spacing: 0.35em;
+  color: var(--cinnabar); border: 1px solid var(--cinnabar);
+  padding: 5px 16px; border-radius: 2px; margin-bottom: 20px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+  letter-spacing: 0.12em; margin-bottom: 12px; line-height: 1.3;
+}
+.section-desc {
+  font-size: 0.95rem; color: var(--text-mid); max-width: 640px; margin-bottom: 56px;
+  line-height: 1.9;
+}
+.reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== 齐鲁风物 ===== */
+.region-box {
+  background: #fff; border-radius: 12px; padding: 40px;
+  box-shadow: 0 2px 16px rgba(43,33,24,0.06);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  align-items: center;
+}
+.region-text h3 { color: var(--ink); margin-bottom: 16px; font-size: 1.3rem; }
+.region-text p { color: var(--text-mid); margin-bottom: 12px; }
+.region-map {
+  height: 260px; background: var(--paper-warm); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-mid); font-size: 0.95rem; text-align: center;
+  border: 1px dashed rgba(43,33,24,0.2);
+}
+.tag-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.tag {
+  padding: 6px 14px; background: var(--paper-warm);
+  border-radius: 20px; font-size: 0.85rem; color: var(--ink);
+}
+
+/* ===== 药材展厅 ===== */
+.gallery-bg { background: var(--paper-warm); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+.herb-card {
+  background: #fff; border-radius: 8px; overflow: hidden;
+  cursor: pointer; position: relative;
+  box-shadow: 0 2px 16px rgba(43,33,24,0.06);
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s;
+}
+.herb-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(43,33,24,0.14);
+}
+.herb-card-visual {
+  height: 210px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.herb-avatar {
+  width: 120px; height: 120px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.6rem; position: relative; z-index: 2;
+  border: 3px solid rgba(255,255,255,0.6);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  transition: transform 0.5s;
+}
+.herb-card:hover .herb-avatar { transform: scale(1.08) rotate(-3deg); }
+.herb-card-ring {
+  position: absolute; width: 170px; height: 170px;
+  border: 1px dashed rgba(255,255,255,0.4); border-radius: 50%;
+  animation: ringSpin 20s linear infinite;
+}
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+.herb-card-info {
+  padding: 18px 20px 22px; text-align: center;
+}
+.herb-card-name {
+  font-size: 1.15rem; font-weight: 700; letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.herb-card-origin {
+  font-size: 0.75rem; color: #8a7d6e; letter-spacing: 0.06em;
+}
+.herb-card-tag {
+  display: inline-block; margin-top: 10px;
+  font-size: 0.65rem; letter-spacing: 0.12em;
+  padding: 3px 10px; border-radius: 20px;
+  background: var(--paper); color: var(--jade);
+  border: 1px solid rgba(74,124,11,0.2);
+}
+
+/* ===== 弹窗 ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(43,33,24,0.55);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-box {
+  background: var(--paper); border-radius: 12px;
+  max-width: 780px; width: 100%; max-height: 88vh; overflow-y: auto;
+  transform: translateY(30px) scale(0.97);
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  box-shadow: 0 30px 80px rgba(43,33,24,0.3);
+}
+.modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
+.modal-close {
+  position: absolute; top: 16px; right: 20px; z-index: 5;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(43,33,24,0.15); background: transparent;
+  cursor: pointer; font-size: 1.1rem; color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.modal-close:hover { background: rgba(43,33,24,0.06); }
+.modal-head {
+  padding: 36px 36px 20px; display: flex; align-items: center; gap: 22px;
+}
+.modal-avatar {
+  width: 84px; height: 84px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; border: 3px solid rgba(255,255,255,0.7);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+}
+.modal-head-text h3 { font-size: 1.5rem; letter-spacing: 0.08em; margin-bottom: 4px; }
+.modal-head-text p { font-size: 0.82rem; color: #7a6d5e; letter-spacing: 0.06em; }
+.modal-body { padding: 0 36px 36px; }
+.modal-section { margin-bottom: 26px; }
+.modal-section h4 {
+  font-size: 0.78rem; letter-spacing: 0.25em; color: var(--cinnabar);
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.modal-section p { font-size: 0.92rem; color: #4a4038; line-height: 1.9; }
+.story-quote {
+  border-left: 3px solid var(--gold); padding: 14px 20px;
+  background: rgba(201,160,92,0.08); border-radius: 0 6px 6px 0;
+  font-size: 0.88rem; color: #5a4f42; line-height: 1.85; font-style: italic;
+}
+
+/* ===== 本草故事 ===== */
+.story-section { background: var(--ink); color: var(--paper); }
+.story-section .section-label { color: var(--gold-light); border-color: var(--gold-light); }
+.story-section .section-title { color: #f5f0e8; }
+.story-section .section-desc { color: rgba(245,240,232,0.55); }
+.story-list { display: grid; gap: 28px; }
+.story-item {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  align-items: center;
+  padding: 32px; border-radius: 10px;
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(245,240,232,0.08);
+  transition: background 0.4s, border-color 0.4s;
+}
+.story-item:hover {
+  background: rgba(245,240,232,0.07);
+  border-color: rgba(201,160,92,0.25);
+}
+.story-item:nth-child(even) { direction: rtl; }
+.story-item:nth-child(even) > * { direction: ltr; }
+.story-illust {
+  height: 240px; border-radius: 8px; overflow: hidden;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.story-illust-bg {
+  position: absolute; inset: 0;
+  opacity: 0.9;
+}
+.story-illust-icon {
+  position: relative; z-index: 2; font-size: 4rem;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+}
+.story-text h3 {
+  font-size: 1.3rem; letter-spacing: 0.1em; margin-bottom: 8px;
+  color: var(--gold-light);
+}
+.story-text .story-sub {
+  font-size: 0.72rem; letter-spacing: 0.2em; color: rgba(245,240,232,0.4);
+  margin-bottom: 14px;
+}
+.story-text p {
+  font-size: 0.88rem; line-height: 1.95; color: rgba(245,240,232,0.75);
+}
+.story-en {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid rgba(245,240,232,0.1);
+  font-size: 0.8rem; line-height: 1.85; color: rgba(245,240,232,0.45);
+  font-style: italic; font-family: Georgia, serif;
+}
+
+/* ===== 人与自然 ===== */
+.nature-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px; margin-top: 12px;
+}
+.nature-card {
+  padding: 32px 26px; border-radius: 10px;
+  background: #fff; box-shadow: 0 2px 16px rgba(43,33,24,0.05);
+  transition: transform 0.4s, box-shadow 0.4s;
+  position: relative; overflow: hidden;
+}
+.nature-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--jade), var(--gold));
+}
+.nature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(43,33,24,0.1);
+}
+.nature-card .num {
+  font-size: 2.2rem; font-weight: 900; color: var(--mist);
+  line-height: 1; margin-bottom: 14px;
+}
+.nature-card h4 {
+  font-size: 1.05rem; letter-spacing: 0.08em; margin-bottom: 10px;
+}
+.nature-card p {
+  font-size: 0.85rem; color: var(--text-mid); line-height: 1.9;
+}
+.harvest-cycle {
+  margin-top: 56px; padding: 40px 32px;
+  background: var(--paper-warm); border-radius: 12px;
+}
+.harvest-cycle h4 {
+  text-align: center; font-size: 1rem; letter-spacing: 0.2em;
+  margin-bottom: 32px; color: var(--jade);
+}
+.cycle-track {
+  display: flex; justify-content: space-around; align-items: flex-start;
+  position: relative; flex-wrap: wrap; gap: 20px;
+}
+.cycle-track::before {
+  content: ''; position: absolute; top: 22px; left: 8%; right: 8%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mist), transparent);
+}
+.cycle-node {
+  text-align: center; position: relative; z-index: 2; flex: 1; min-width: 90px;
+}
+.cycle-dot {
+  width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 12px;
+  background: #fff; border: 2px solid var(--jade-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  transition: transform 0.3s, border-color: 0.3s;
+}
+.cycle-node:hover .cycle-dot {
+  transform: scale(1.15); border-color: var(--cinnabar);
+}
+.cycle-node .label { font-size: 0.78rem; letter-spacing: 0.1em; margin-bottom: 4px; }
+.cycle-node .sub { font-size: 0.68rem; color: #8a7d6e; }
+
+/* ===== 创作理念 ===== */
+.concept-section { background: var(--paper-warm); }
+.concept-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.concept-item {
+  background: #fff; padding: 30px; border-radius: 10px;
+  text-align: center; box-shadow: 0 2px 16px rgba(43,33,24,0.05);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+.concept-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(43,33,24,0.12);
+}
+.concept-icon {
+  width: 56px; height: 56px; margin: 0 auto 18px;
+  background: var(--paper-warm); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--jade); font-size: 1.4rem;
+}
+.concept-item h4 {
+  font-size: 1.1rem; letter-spacing: 0.08em; margin-bottom: 12px;
+  color: var(--ink);
+}
+.concept-item p {
+  font-size: 0.88rem; color: var(--text-mid); line-height: 1.9;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  background: var(--ink); color: rgba(245,240,232,0.4);
+  padding: 48px; text-align: center;
+  font-size: 0.78rem; letter-spacing: 0.1em; line-height: 2;
+}
+.footer .footer-brand {
+  font-size: 1.1rem; color: var(--gold-light); letter-spacing: 0.2em;
+  margin-bottom: 12px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .nav { padding: 14px 20px; }
+  .nav.scrolled { padding: 10px 20px; }
+  .nav-links { display: none; }
+  .section { padding: 64px 20px; }
+  .region-box { grid-template-columns: 1fr; padding: 30px; }
+  .story-item { grid-template-columns: 1fr; gap: 20px; }
+  .story-item:nth-child(even) { direction: ltr; }
+  .modal-head { padding: 28px 24px 16px; flex-direction: column; text-align: center; }
+  .modal-body { padding: 0 24px 28px; }
+  .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+  .herb-card-visual { height: 160px; }
+  .herb-avatar { width: 90px; height: 90px; font-size: 2rem; }
+  .concept-grid { grid-template-columns: 1fr; }
+  .cycle-track::before { display: none; }
+}
+</style>
+<style id="herbalAtlasStyles">
+/* Herbal atlas: self-contained, responsive, offline SVG exhibition. */
+#region {max-width:1440px;scroll-margin-top:70px}
+#region>.reveal .section-desc{max-width:830px;margin-bottom:36px}
+.herbal-atlas{--a-ink:#493d2d;--a-paper:#f8f3e9;--a-line:#d8ceba;--a-red:#a64938;position:relative;background:var(--a-paper);color:var(--a-ink);border:1px solid #d3c4a9;border-radius:5px;box-shadow:0 15px 55px #4b362510;overflow:hidden;background-image:var(--paper-texture);font-family:inherit}
+.herbal-atlas::before{content:'';position:absolute;inset:7px;border:1px solid #b79d6e44;pointer-events:none;z-index:3}
+.atlas-masthead{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 30px;padding:28px 0 21px;border-bottom:1px solid var(--a-line)}
+.atlas-heading{display:flex;align-items:center;gap:16px}.atlas-seal{width:43px;height:48px;display:grid;place-items:center;border:2px solid var(--a-red);color:var(--a-red);font-size:16px;line-height:1.25;letter-spacing:3px;transform:rotate(-4deg);padding-left:3px;border-radius:4px}
+.atlas-heading h3{font-size:26px;letter-spacing:.13em;font-weight:700;line-height:1.3}.atlas-heading small{font-family:Georgia,serif;font-size:10px;letter-spacing:.22em;color:#8e7b5d;display:block;margin-top:7px}.atlas-masthead>p{font-size:12px;color:#83735e;max-width:245px;text-align:right}
+.atlas-filters{padding:18px 30px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.atlas-filter{font:inherit;font-size:12px;border:1px solid transparent;background:none;color:#746650;cursor:pointer;padding:6px 13px;border-radius:3px;transition:background .2s,color .2s}.atlas-filter[aria-pressed=true]{background:#594c37;color:#fff8e7}.atlas-filter:hover{border-color:#ae9670}.atlas-filter i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--dot);margin-right:7px;vertical-align:middle}.atlas-filter[aria-pressed=true] i{background:#e1c488}
+.atlas-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:8px;padding:0 30px 26px;align-items:stretch}.atlas-map-wrap{position:relative;min-width:0;display:flex;align-items:center}.atlas-map-svg{display:block;width:100%;height:auto;overflow:visible;min-width:0;aspect-ratio:1000/710}.atlas-water{fill:#889c9a;font-size:15px;letter-spacing:9px}.atlas-area-name{font-size:19px;letter-spacing:6px;fill:#615439;opacity:.40;pointer-events:none}.atlas-region{stroke:#f8f2e5;stroke-width:2.5;stroke-linejoin:round}.atlas-marker{cursor:pointer;outline:none;transition:opacity .25s}.atlas-marker .marker-art{transition:transform .25s;transform-origin:center;transform-box:fill-box;filter:drop-shadow(0 4px 2px #4d321e22)}.atlas-marker:hover .marker-art,.atlas-marker:focus .marker-art{transform:translateY(-4px) rotate(-3deg)}.atlas-marker .marker-halo{fill:#fff9ed;stroke:#ad8c54;stroke-width:1;opacity:0;transition:opacity .2s}.atlas-marker.is-selected .marker-halo,.atlas-marker:focus .marker-halo{opacity:.92}.atlas-marker.is-muted{opacity:.14;pointer-events:none}.atlas-marker .marker-label{font-size:17px;letter-spacing:2px;font-weight:700;fill:#493826}.atlas-marker .marker-origin{font-size:10px;fill:#726047;letter-spacing:1px}.atlas-marker .marker-line{stroke:#75654e;stroke-width:1;stroke-dasharray:2 3;fill:none;opacity:.55}.atlas-marker .marker-pin{fill:#a34b36;stroke:#fff8e8;stroke-width:2}.atlas-marker.is-selected .marker-label{fill:#9c3e2a}.atlas-marker.is-selected .marker-line{stroke:#a34b36;stroke-width:1.8;opacity:1}.atlas-marker.is-selected .marker-pin{r:5}.atlas-marker:focus-visible .marker-halo{stroke:#a34b36;stroke-width:2}.atlas-map-note{position:absolute;bottom:2px;left:4px;font-size:10px;letter-spacing:.04em;color:#85775f}
+.atlas-detail{align-self:center;margin:24px 0 8px;padding:23px 22px;background:#fffdf7cf;border:1px solid #d9cbb3;box-shadow:5px 5px 0 #cbb98f18;position:relative}.atlas-detail::before{content:'';position:absolute;top:-4px;left:18px;width:34px;height:7px;background:#a34b36}.atlas-detail-top{display:flex;justify-content:space-between;align-items:center;color:#9a8463;font-size:10px;letter-spacing:.18em;font-family:Georgia,serif}.atlas-detail-visual{height:148px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse,#ede2cc80,transparent 70%);margin:5px 0}.atlas-detail-visual svg{width:155px;height:145px;filter:drop-shadow(0 7px 3px #4b2f1b16)}.atlas-detail h4{font-size:29px;line-height:1.25;letter-spacing:.12em;color:#463725}.atlas-detail-latin{font-style:italic;font-size:11px;color:#968066;margin:5px 0 14px;font-family:Georgia,serif}.atlas-detail-origin{font-size:12px;border-top:1px solid #e7ddca;padding-top:13px;color:#61543e}.atlas-detail-origin::before{content:'◎';color:#ab553e;margin-right:6px}.atlas-detail-label{margin-top:16px;font-size:10px;letter-spacing:.22em;color:#9a7c53}.atlas-detail-description{font-size:13px;line-height:1.95;margin-top:6px;color:#7a6a55;min-height:76px}.atlas-open{display:flex;justify-content:space-between;align-items:center;width:100%;background:#5d674c;color:#fff9e9;border:none;padding:11px 13px;font:inherit;font-size:12px;cursor:pointer;margin-top:18px;transition:background .2s}.atlas-open:hover{background:#454e37}.atlas-open span:last-child{font-size:18px;line-height:1}
+.atlas-shelf{margin:0 30px;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));border-top:1px solid #d4c4a6;border-bottom:1px solid #d4c4a6;padding:12px 0;gap:4px}.atlas-shelf-item{position:relative;background:none;border:1px solid transparent;cursor:pointer;color:#6b5b43;font:inherit;font-size:12px;padding:8px 2px 6px;border-radius:3px;transition:background .2s}.atlas-shelf-item svg{display:block;width:52px;height:49px;margin:0 auto 5px;filter:drop-shadow(0 2px 1px #59361c22)}.atlas-shelf-item span{display:block;white-space:normal}.atlas-shelf-item[aria-pressed=true]{background:#e8dcc1;border-color:#c5ae83;color:#873f2c}.atlas-shelf-item:hover{background:#ece4d4}.atlas-shelf-item[hidden]{display:none}.atlas-footer{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 30px 21px;font-size:10px;color:#96856a;letter-spacing:.04em}.atlas-footer strong{font-weight:400;color:#9a5d43;white-space:nowrap}.atlas-mobile-tip{display:none}.herbal-atlas button:focus-visible{outline:2px solid #a64938;outline-offset:3px}.atlas-accessible-note{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+body.lang-en .atlas-marker .marker-label{font-size:12px;letter-spacing:0}body.lang-en .atlas-marker .marker-origin{font-size:9px;letter-spacing:0}body.lang-en .atlas-area-name{font-size:13px;letter-spacing:1px}body.lang-en .atlas-detail h4{font-size:23px;letter-spacing:0}body.lang-en .atlas-heading h3{letter-spacing:.02em;font-size:24px}body.lang-en .atlas-shelf-item{font-size:10px;line-height:1.35}body.lang-en .atlas-detail-description{min-height:92px;font-size:12px}
+@media(max-width:1100px){.atlas-layout{grid-template-columns:minmax(0,1fr) 240px;padding:0 22px 20px;gap:0}.atlas-detail{padding:19px 17px}.atlas-detail-visual{height:120px}.atlas-detail-visual svg{height:120px}.atlas-detail-description{min-height:0}.atlas-map-note{max-width:250px;font-size:9px}.atlas-shelf{margin:0 22px}.atlas-detail h4{font-size:25px}.atlas-heading h3{font-size:23px}}
+@media(max-width:820px){#region{padding:64px 20px}.atlas-layout{grid-template-columns:1fr;padding:0 18px 20px}.atlas-masthead{margin:0 20px;padding:25px 0 19px}.atlas-masthead>p{display:none}.atlas-filters{padding:16px 18px 0;gap:4px}.atlas-map-wrap{margin:7px -8px 0}.atlas-detail{display:grid;grid-template-columns:125px 1fr;column-gap:20px;margin-top:20px;padding:18px}.atlas-detail-top{grid-column:1/-1}.atlas-detail-visual{grid-column:1;grid-row:2/8;align-self:center;height:145px}.atlas-detail-visual svg{width:120px;height:130px}.atlas-detail h4{grid-column:2;margin-top:14px}.atlas-detail-latin,.atlas-detail-origin,.atlas-detail-label,.atlas-detail-description,.atlas-open{grid-column:2}.atlas-detail-label{margin-top:10px}.atlas-detail-description{min-height:0}.atlas-open{margin-top:13px}.atlas-shelf{grid-template-columns:repeat(5,1fr);gap:5px;margin:0 20px}.atlas-footer{padding:15px 22px 21px;align-items:flex-start}.atlas-map-note{bottom:-2px;font-size:9px;max-width:none}.atlas-mobile-tip{display:block;padding:15px 4px 0;font-size:11px;color:#9a7956}.atlas-detail-origin{padding-top:9px}.atlas-detail-latin{margin-bottom:9px}}
+@media(max-width:480px){.atlas-heading h3{font-size:21px}.atlas-heading small{font-size:8px;letter-spacing:.17em}.atlas-seal{width:37px;height:44px;font-size:14px}.atlas-filter{font-size:10px;padding:5px 8px}.atlas-filter i{margin-right:4px}.atlas-layout{padding:0 12px 18px}.atlas-detail{grid-template-columns:83px 1fr;gap:0 12px;padding:17px 13px}.atlas-detail-visual svg{width:89px;height:111px}.atlas-detail h4{font-size:25px}.atlas-detail-visual{margin:0;height:130px}.atlas-detail-description{font-size:12px;line-height:1.8}.atlas-detail-origin{font-size:11px}.atlas-shelf{margin:0 16px}.atlas-footer{flex-direction:column;gap:6px;font-size:9px}.atlas-map-note{font-size:8px}.atlas-marker .marker-label{font-size:19px}.atlas-marker .marker-origin{font-size:12px}.atlas-masthead{margin:0 18px}.atlas-filters{padding-left:15px;padding-right:15px}}
+.atlas-seal{display:block;flex-shrink:0;text-align:center;letter-spacing:1px;padding:3px 0 0;line-height:1.25}
+@media(max-width:820px){.atlas-mobile-tip{padding:0 20px 12px}.atlas-shelf-item{min-height:83px}}
+@media(prefers-reduced-motion:reduce){.herbal-atlas *{transition:none!important;animation:none!important}}
+
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- 导航 -->
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav-logo">
+    <span class="seal">本草</span>
+    <span data-zh="本草山东" data-en="Herbal Shandong">本草山东</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#region" data-zh="齐鲁风物" data-en="Land">齐鲁风物</a></li>
+      <li><a href="#gallery" data-zh="药材展厅" data-en="Gallery">药材展厅</a></li>
+      <li><a href="#stories" data-zh="本草故事" data-en="Stories">本草故事</a></li>
+      <li><a href="#nature" data-zh="人与自然" data-en="Nature">人与自然</a></li>
+      <li><a href="#concept" data-zh="创作理念" data-en="Concept">创作理念</a></li>
+    </ul>
+    <button class="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<!-- 首页 -->
+<section class="hero" id="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-mountains">
+    <svg viewBox="0 0 1440 400" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="mt1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4a3f33" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#2b2118" stop-opacity="1"/>
+        </linearGradient>
+        <linearGradient id="mt2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3d3228" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#2b2118" stop-opacity="1"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,400 L0,260 Q120,180 240,230 Q360,150 520,210 Q640,140 780,200 Q900,120 1060,190 Q1180,150 1320,210 Q1400,180 1440,220 L1440,400 Z" fill="url(#mt2)" opacity="0.5"/>
+      <path d="M0,400 L0,300 Q100,250 220,280 Q340,220 500,270 Q620,210 760,260 Q880,200 1020,250 Q1140,220 1280,260 Q1380,240 1440,270 L1440,400 Z" fill="url(#mt1)" opacity="0.7"/>
+      <path d="M0,400 L0,340 Q160,310 300,335 Q440,300 600,330 Q740,290 880,325 Q1020,295 1160,330 Q1300,310 1440,335 L1440,400 Z" fill="#2b2118" opacity="0.9"/>
+    </svg>
+  </div>
+  <div id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-title-main" data-zh="本草山东" data-en="HERBAL SHANDONG">本草山东</div>
+    <div class="hero-sub" data-zh="齊魯道地 · 百草有靈" data-en="AUTHENTIC HERBS · CULTURAL LEGACY">齊魯道地 · 百草有靈</div>
+    <div class="hero-line"></div>
+    <div class="hero-tagline" data-zh="一方水土 育一方良药" data-en="Each land nurtures its own herbs">一方水土 育一方良药</div>
+  </div>
+  <div class="scroll-hint">
+    <span data-zh="向下探索" data-en="Scroll Down">向下探索</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- 齐鲁风物 -->
+<section class="section" id="region">
+  <div class="reveal">
+    <span class="section-label" data-zh="齐鲁风物" data-en="The Land">齐鲁风物</span>
+    <h2 class="section-title" data-zh="山 水 孕 育 · 十 味 本 草" data-en="MOUNTAINS NURTURE TEN HERBS">山 水 孕 育 · 十 味 本 草</h2>
+    <p class="section-desc" data-zh="山东东临黄海，西接平原，泰沂山脉横亘其中，气候四季分明，孕育了丰富的本草资源。官方遴选十味最具代表性道地药材，合称「鲁十味」，是山东中医药文化的金字招牌。" data-en="Shandong’s mountains, sea and four seasons nurture rich herbal resources. The 'Lu Ten Herbs' are the most representative authentic herbs, a signature of Shandong’s herbal culture.">
+      山东东临黄海，西接平原，泰沂山脉横亘其中，气候四季分明，孕育了丰富的本草资源。官方遴选十味最具代表性道地药材，合称「鲁十味」，是山东中医药文化的金字招牌。
+    </p>
+  </div>
+  <div class="herbal-atlas" id="herbalAtlas" aria-label="山东本草产地互动图">
+    <header class="atlas-masthead">
+      <div class="atlas-heading"><span class="atlas-seal" aria-hidden="true">齐鲁<br>本草</span><div><h3 data-zh="一方水土 · 十味本草" data-en="A Land of Ten Herbs">一方水土 · 十味本草</h3><small>SHANDONG · A BOTANICAL ATLAS</small></div></div>
+      <p data-zh="循山海之间，寻本草来处。" data-en="Trace each specimen back to its landscape.">循山海之间，寻本草来处。</p>
+    </header>
+    <div class="atlas-filters" role="group" aria-label="按产地景观筛选">
+      <button class="atlas-filter" data-filter="all" aria-pressed="true"><span data-zh="全部十味" data-en="All ten">全部十味</span></button>
+      <button class="atlas-filter" data-filter="plain" aria-pressed="false"><i style="--dot:#be905e"></i><span data-zh="黄河平原" data-en="River plains">黄河平原</span></button>
+      <button class="atlas-filter" data-filter="mountain" aria-pressed="false"><i style="--dot:#ad7866"></i><span data-zh="泰沂山地" data-en="Taiyi mountains">泰沂山地</span></button>
+      <button class="atlas-filter" data-filter="east" aria-pressed="false"><i style="--dot:#8b9b71"></i><span data-zh="胶东丘陵" data-en="Jiaodong hills">胶东丘陵</span></button>
+      <button class="atlas-filter" data-filter="south" aria-pressed="false"><i style="--dot:#7f9a98"></i><span data-zh="鲁南水乡" data-en="Southern wetlands">鲁南水乡</span></button>
+    </div>
+    <div class="atlas-layout">
+      <div class="atlas-map-wrap">
+        <svg class="atlas-map-svg" id="atlasMap" viewBox="0 0 1000 710" role="group" aria-labelledby="atlasMapTitle atlasMapDesc">
+          <title id="atlasMapTitle">山东鲁十味产地示意图</title><desc id="atlasMapDesc">选择药材图示查看标本说明。地图为艺术化产地示意，色块不是行政边界。也可通过下方十味药材按钮选择。</desc>
+          <defs>
+            <!-- Outline traced from user reference th.jpg; text artifacts removed. Not an official boundary dataset. --><path id="atlasLand" d="M398.5 66.9Q398.5 65.9 399.5 66.1L406.7 67.5Q408.4 67.9 409.2 69.4L417.5 84.2Q418.3 85.7 419.9 86.0L426.5 87.3Q428.2 87.7 427.4 89.2L425.0 94.1Q424.2 95.6 425.0 97.1L427.4 102.0Q428.2 103.5 429.8 103.1L434.5 101.9Q436.1 101.5 436.3 99.9L437.8 89.3Q438.1 87.7 439.8 87.6L474.0 85.8Q475.7 85.7 476.0 87.4L477.5 96.6Q477.7 97.6 478.7 97.6L480.7 97.6Q481.6 97.6 482.2 96.8L484.7 92.9Q485.6 91.6 487.1 92.1L490.1 93.1Q491.5 93.6 492.3 92.3L498.6 81.2Q499.5 79.8 501.1 79.9L515.6 81.6Q517.3 81.7 517.6 83.4L518.9 90.0Q519.3 91.6 520.4 92.9L532.0 106.2Q533.1 107.5 533.5 109.1L540.7 141.5Q541.0 143.1 539.5 143.9L534.6 146.3Q533.1 147.1 533.5 148.7L534.7 153.4Q535.1 155.0 533.8 156.0L528.5 159.9Q527.2 160.9 527.2 162.6L527.2 173.4Q527.2 174.8 526.2 175.8L524.2 177.8Q523.2 178.8 523.6 180.1L524.8 185.0Q525.2 186.7 523.5 186.7L514.8 186.7Q513.3 186.7 513.3 188.2L513.3 191.1Q513.3 192.6 514.8 192.9L521.6 194.3Q523.2 194.6 524.0 196.1L532.3 210.9Q533.1 212.4 534.6 213.2L547.5 219.6Q549.0 220.3 549.9 221.7L552.0 224.9Q552.9 226.3 554.6 226.3L610.6 226.3Q612.3 226.3 612.3 224.6L612.3 220.0Q612.3 218.4 613.8 217.6L619.4 214.8Q620.2 214.4 620.2 213.4L620.2 211.4Q620.2 210.4 621.2 210.2L626.5 208.9Q628.2 208.5 627.3 207.0L621.1 196.1Q620.2 194.6 621.7 193.8L659.0 173.3Q659.8 172.8 659.8 171.8L659.8 169.9Q659.8 168.9 660.7 168.4L668.3 163.8Q669.7 162.9 669.7 161.2L669.7 146.8Q669.7 145.1 671.4 144.8L680.0 143.4Q681.6 143.1 682.4 141.6L684.8 136.7Q685.6 135.2 687.2 134.9L707.7 131.5Q709.3 131.2 710.5 130.0L714.1 126.5Q715.3 125.3 717.0 125.3L733.4 125.3Q735.1 125.3 736.6 125.9L743.4 128.6Q745.0 129.3 745.5 130.9L748.4 139.5Q748.9 141.1 750.6 140.8L757.5 139.4Q758.8 139.2 759.8 140.2L761.8 142.1Q762.8 143.1 763.0 144.5L764.6 155.6Q764.8 157.0 765.8 158.0L767.8 160.0Q768.7 160.9 770.1 160.9L790.8 160.9Q792.5 160.9 793.5 162.3L805.4 179.4Q806.4 180.7 808.0 180.6L852.2 176.9Q853.9 176.8 854.2 175.1L855.5 168.5Q855.9 166.9 857.4 166.3L870.1 161.5Q871.7 160.9 872.1 162.6L873.3 167.2Q873.7 168.9 875.1 169.8L878.2 171.9Q879.6 172.8 881.2 173.4L888.0 176.2Q889.5 176.8 890.5 178.1L894.5 183.4Q895.5 184.7 897.1 184.7L905.7 184.7Q907.3 184.7 908.9 185.3L915.7 188.0Q917.2 188.7 918.8 188.1L933.5 183.3Q935.1 182.7 934.3 184.2L931.9 189.1Q931.1 190.6 929.6 191.4L920.7 195.8Q919.2 196.6 918.9 198.2L917.5 206.8Q917.2 208.5 918.4 209.7L922.0 213.2Q923.2 214.4 921.7 215.3L914.6 219.5Q913.3 220.3 911.8 220.8L908.8 221.8Q907.3 222.3 907.8 223.8L910.8 232.6Q911.3 234.2 913.0 234.5L919.5 235.8Q921.2 236.2 920.4 237.7L918.0 242.6Q917.2 244.1 916.3 245.5L906.3 260.5Q905.4 261.9 903.7 262.3L887.2 265.5Q885.6 265.9 884.1 265.1L879.1 262.7Q877.6 261.9 878.3 260.4L881.0 253.5Q881.6 252.0 880.1 251.5L877.1 250.5Q875.7 250.0 875.7 248.6L875.7 245.6Q875.7 244.1 875.0 245.4L870.5 254.5Q869.7 256.0 868.1 255.6L861.5 254.3Q859.8 254.0 859.8 252.3L859.8 247.6Q859.8 246.1 858.3 245.6L855.4 244.6Q853.9 244.1 853.6 245.6L852.2 254.3Q851.9 256.0 850.2 256.0L839.7 256.0Q838.0 256.0 837.7 257.6L836.4 264.2Q836.1 265.9 834.5 266.5L823.7 271.2Q822.2 271.8 822.5 273.5L823.8 280.1Q824.2 281.7 822.5 282.0L814.0 283.4Q812.3 283.7 811.2 282.4L803.5 273.1Q802.4 271.8 801.5 273.2L793.4 286.2Q792.5 287.7 790.8 287.7L780.3 287.7Q778.6 287.7 777.1 288.3L760.4 295.0Q758.8 295.6 757.6 296.8L754.1 300.3Q752.9 301.5 751.6 302.5L746.3 306.5Q745.0 307.5 744.4 309.0L741.6 315.8Q741.0 317.4 739.4 317.0L734.7 315.8Q733.1 315.4 731.5 316.0L724.8 318.7Q723.2 319.3 722.9 321.0L721.6 327.6Q721.2 329.2 722.4 330.4L726.0 334.0Q727.2 335.2 726.0 336.4L722.4 339.9Q721.2 341.1 720.8 342.8L719.6 347.5Q719.2 349.0 717.8 349.5L714.8 350.5Q713.3 351.0 712.9 352.5L711.7 357.3Q711.3 358.9 712.2 360.4L716.4 367.4Q717.3 368.8 715.7 369.5L704.9 374.1Q703.4 374.8 701.8 375.2L697.1 376.4Q695.5 376.8 693.8 376.8L685.3 376.8Q683.6 376.8 681.9 377.1L675.4 378.4Q673.7 378.7 672.3 377.8L669.2 375.7Q667.8 374.8 669.0 373.6L674.5 368.1Q675.7 366.9 676.2 365.3L679.1 356.5Q679.6 355.0 679.1 353.5L678.2 350.5Q677.7 349.0 676.1 348.7L671.4 347.5Q669.7 347.1 669.3 348.7L668.2 353.3Q667.8 355.0 666.6 353.8L662.9 350.1Q661.8 349.0 660.3 349.5L657.4 350.5Q655.9 351.0 656.1 352.6L657.6 363.2Q657.9 364.9 657.1 366.4L654.7 371.3Q653.9 372.8 654.8 374.2L656.9 377.3Q657.9 378.7 659.4 379.4L666.2 382.1Q667.8 382.7 667.4 384.3L666.2 389.0Q665.8 390.6 664.6 391.8L661.0 395.4Q659.8 396.6 658.5 397.6L649.3 405.4Q648.0 406.5 648.0 408.1L648.0 424.9Q648.0 426.3 647.0 427.3L645.0 429.2Q644.0 430.2 642.7 429.8L639.5 428.7Q638.1 428.2 637.4 429.7L632.8 440.6Q632.1 442.1 630.9 440.9L627.4 437.4Q626.2 436.2 625.0 437.4L621.4 440.9Q620.2 442.1 618.8 441.2L615.7 439.1Q614.3 438.1 613.0 439.2L605.7 445.0Q604.4 446.1 604.1 447.7L598.8 476.1Q598.5 477.7 597.1 478.8L580.0 492.5Q578.7 493.6 578.5 495.3L576.8 513.7Q576.7 515.4 575.5 516.6L571.9 520.1Q570.7 521.3 569.1 520.9L564.5 519.7Q562.8 519.3 561.2 519.9L552.0 522.9Q550.9 523.3 550.4 524.3L549.5 526.3Q549.0 527.2 547.9 527.4L524.9 530.9Q523.2 531.2 522.9 532.8L519.6 547.4Q519.3 549.0 518.2 550.3L510.4 559.6Q509.4 560.9 509.4 562.6L509.4 573.4Q509.4 574.8 508.4 575.8L506.4 577.7Q505.4 578.7 504.0 578.5L485.3 575.1Q483.6 574.8 482.7 576.2L474.6 589.2Q473.7 590.6 473.7 592.3L473.7 608.7Q473.7 610.4 472.4 611.4L467.1 615.3Q465.8 616.3 464.1 616.3L451.6 616.3Q450.0 616.3 448.4 617.0L437.4 621.7Q436.1 622.3 435.1 621.3L433.1 619.3Q432.1 618.3 431.9 616.9L428.5 596.2Q428.2 594.6 427.1 593.2L421.3 586.0Q420.3 584.7 418.6 584.3L414.0 583.1Q412.3 582.7 410.7 582.7L402.1 582.7Q400.5 582.7 400.8 584.3L402.1 590.9Q402.4 592.6 401.9 594.2L399.0 602.9Q398.5 604.5 396.8 604.1L384.3 600.9Q382.6 600.5 381.2 601.4L372.2 607.5Q370.8 608.4 369.3 607.7L364.3 605.2Q362.8 604.5 361.3 603.8L350.5 599.2Q349.0 598.5 347.7 597.5L340.4 591.7Q339.1 590.6 338.1 591.9L334.1 597.2Q333.1 598.5 332.3 600.0L328.1 607.0Q327.2 608.4 325.8 607.5L322.7 605.4Q321.3 604.5 320.4 603.0L316.2 596.0Q315.3 594.6 314.7 593.0L310.0 580.3Q309.4 578.7 308.8 577.1L304.0 562.5Q303.4 560.9 302.6 559.4L296.4 548.5Q295.5 547.0 294.2 546.0L288.9 542.1Q287.6 541.1 285.9 541.2L251.7 543.0Q250.0 543.1 249.6 544.7L248.4 549.5Q248.0 551.0 246.5 551.5L243.5 552.5Q242.1 553.0 242.1 554.5L242.1 559.8Q242.1 560.9 241.1 561.4L239.1 562.4Q238.1 562.9 238.4 564.0L239.7 569.2Q240.1 570.8 239.3 572.3L236.9 577.2Q236.1 578.7 234.6 579.3L227.8 582.1Q226.2 582.7 225.3 584.1L219.2 593.2Q218.3 594.6 216.7 594.2L202.1 591.0Q200.5 590.6 199.3 589.4L195.7 585.9Q194.5 584.7 192.9 584.7L186.3 584.7Q184.6 584.7 183.3 585.7L178.1 589.6Q176.7 590.6 175.0 590.4L140.8 586.8Q139.1 586.6 137.6 585.8L122.8 577.6Q121.3 576.7 120.9 575.1L115.7 548.7Q115.3 547.0 113.7 546.6L103.1 543.5Q101.5 543.1 100.7 541.6L94.3 528.7Q93.6 527.2 91.9 527.2L81.4 527.2Q79.7 527.2 78.2 526.5L57.4 516.1Q55.9 515.4 56.2 513.7L59.7 489.3Q59.9 487.6 61.2 486.5L74.5 474.9Q75.7 473.8 76.3 472.2L79.2 463.5Q79.7 461.9 81.0 460.9L86.3 457.0Q87.6 456.0 89.3 456.0L97.8 456.0Q99.5 456.0 101.0 455.2L109.9 450.8Q111.4 450.0 111.6 448.3L113.2 435.9Q113.4 434.2 115.0 434.2L119.6 434.2Q121.3 434.2 121.8 432.6L124.7 423.9Q125.2 422.3 126.4 421.1L133.9 413.6Q135.1 412.4 136.8 412.1L153.3 408.8Q154.9 408.4 155.9 407.1L163.9 395.9Q164.8 394.6 166.4 394.0L175.1 391.2Q176.7 390.6 175.8 389.2L173.7 386.1Q172.8 384.7 171.4 385.7L166.2 389.6Q164.8 390.6 163.2 390.9L154.6 392.3Q153.0 392.6 152.0 394.0L149.9 397.1Q149.0 398.5 147.3 398.2L140.8 396.9Q139.1 396.6 138.1 397.9L128.2 411.1Q127.2 412.4 125.5 412.4L120.7 412.4Q119.3 412.4 118.3 411.4L116.3 409.4Q115.3 408.4 115.3 407.0L115.3 388.3Q115.3 386.7 116.0 385.1L118.7 378.3Q119.3 376.8 120.9 376.1L127.6 373.4Q129.2 372.8 129.4 371.1L132.9 344.8Q133.2 343.1 131.8 342.1L120.7 334.2Q119.3 333.2 119.0 331.5L117.5 322.4Q117.3 321.3 116.3 320.8L114.4 319.8Q113.4 319.3 113.4 318.2L113.4 303.2Q113.4 301.5 114.0 300.0L118.6 289.2Q119.3 287.7 120.6 286.7L133.8 276.8Q135.1 275.8 135.1 274.1L135.1 269.3Q135.1 267.9 136.1 266.9L138.1 264.9Q139.1 263.9 140.5 263.7L155.2 262.1Q156.9 261.9 158.0 260.6L163.8 253.3Q164.8 252.0 165.2 250.4L168.4 237.8Q168.8 236.2 170.2 235.2L173.3 233.2Q174.7 232.2 175.1 230.6L176.4 224.0Q176.7 222.3 177.9 221.1L183.4 215.6Q184.6 214.4 185.3 212.8L193.9 192.2Q194.5 190.6 195.8 189.6L205.1 181.8Q206.4 180.7 208.1 180.7L216.6 180.7Q218.3 180.7 218.3 179.1L218.3 172.5Q218.3 170.8 217.4 169.4L213.2 162.4Q212.4 160.9 214.0 160.9L220.6 160.9Q222.3 160.9 223.3 159.6L229.1 152.4Q230.2 151.0 231.8 150.6L236.5 149.5Q238.1 149.1 239.7 149.5L244.5 150.7Q246.0 151.0 246.5 152.5L247.5 155.6Q248.0 157.0 249.5 157.0L252.5 157.0Q253.9 157.0 254.9 155.9L274.7 134.3Q275.7 133.2 275.7 131.7L275.7 128.8Q275.7 127.3 276.7 126.2L288.5 112.7Q289.6 111.4 291.3 111.4L305.7 111.4Q307.4 111.4 309.0 111.9L335.5 118.9Q337.1 119.4 338.8 119.2L357.2 117.5Q358.9 117.4 359.3 115.8L366.3 91.3Q366.8 89.7 368.1 88.6L375.4 82.8Q376.7 81.7 378.4 81.4L384.9 80.1Q386.6 79.8 387.9 78.7L397.7 70.5Q398.5 69.9 398.5 68.9Z"/>
+            <clipPath id="atlasClip"><use href="#atlasLand"/></clipPath>
+            <filter id="atlasPaperShadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="7" stdDeviation="4" flood-color="#6f5436" flood-opacity=".17"/></filter>
+            <pattern id="atlasHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><path d="M0 0V7" stroke="#725a36" stroke-width=".6" opacity=".09"/></pattern>
+            <linearGradient id="specGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ead29a"/><stop offset=".55" stop-color="#b58b4c"/><stop offset="1" stop-color="#8c6234"/></linearGradient>
+<linearGradient id="specRoot" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#b96f40"/><stop offset=".5" stop-color="#824328"/><stop offset="1" stop-color="#573721"/></linearGradient>
+<linearGradient id="specIvory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffae0"/><stop offset=".6" stop-color="#e0c78b"/><stop offset="1" stop-color="#b38f51"/></linearGradient>
+<radialGradient id="specBerry" cx=".35" cy=".3" r=".8"><stop stop-color="#d38a68"/><stop offset=".48" stop-color="#aa5140"/><stop offset="1" stop-color="#76382b"/></radialGradient>
+<symbol id="herb-0" viewBox="0 0 120 120">
+ <g fill="none" stroke="#777c48" stroke-width="2" stroke-linecap="round"><path d="M43 110Q53 77 65 47M51 91Q37 68 28 48M54 80Q80 71 87 42M60 66Q49 40 53 24M47 99Q71 96 87 74"/></g>
+ <g fill="#87905b" stroke="#626d43" stroke-width=".7"><path d="M51 89Q28 91 22 73Q43 70 51 89Z"/><path d="M54 82Q62 59 79 60Q75 79 54 82Z"/><path d="M59 64Q40 66 37 52Q53 48 59 64Z"/></g>
+ <g fill="url(#specIvory)" stroke="#b8a170" stroke-width=".7"><path d="M64 54Q70 41 71 29Q79 7 89 13Q93 20 83 29Q76 36 70 55Z"/><path d="M66 52Q61 31 65 21Q68 9 74 13Q80 20 73 31L71 50Z"/><path d="M29 51Q15 42 12 30Q9 18 16 17Q25 17 24 30L34 47Z"/><path d="M29 49Q22 31 30 21Q39 13 41 22Q42 29 35 34L34 49Z"/><path d="M52 31Q39 15 45 9Q52 6 55 17L58 29Z"/><path d="M86 48Q85 25 94 23Q105 24 96 36L92 46Z"/><path d="M86 47Q98 35 107 40Q111 47 99 49L89 53Z"/><path d="M84 79Q91 60 101 64Q111 69 96 74L90 82Z"/></g>
+ <g fill="none" stroke="#c2a455" stroke-width=".9"><path d="M81 26L96 13M76 23L87 5M32 30L38 11M23 28L13 10M95 39L110 30"/></g><g fill="#c2a455"><circle cx="96" cy="13" r="1.8"/><circle cx="87" cy="5" r="1.8"/><circle cx="38" cy="11" r="1.5"/><circle cx="13" cy="10" r="1.5"/><circle cx="110" cy="30" r="1.7"/></g>
+</symbol>
+<symbol id="herb-1" viewBox="0 0 120 120">
+ <g stroke="#593c28" stroke-width="1" stroke-linejoin="round"><path d="M18 65L68 48 105 63 55 83Z" fill="#745137"/><path d="M18 65V83L55 103V83Z" fill="#513929"/><path d="M55 83L105 63V82L55 103Z" fill="#65452d"/><path d="M14 35L64 18 103 34 53 54Z" fill="#8b6242"/><path d="M14 35V54L53 75V54Z" fill="#60412d"/><path d="M53 54L103 34V55L53 75Z" fill="#473024"/></g>
+ <path d="M20 35L64 21 95 34M59 58L98 42M60 88L99 74" fill="none" stroke="#c2955e" stroke-width="1" opacity=".7"/>
+ <g transform="translate(58 36) rotate(-17) scale(1 .6)" fill="none" stroke="#c19b64" stroke-width="1" opacity=".65"><rect x="-13" y="-12" width="26" height="24" rx="1"/><path d="M-9-7H9M-9 0H9M-5-9V9M4-9V9M-9 7H9"/></g>
+ <path d="M19 45L47 59M19 51L46 66M62 68L96 55M26 78L47 88M64 94L99 81" stroke="#b5834e" stroke-width=".65" opacity=".6"/>
+</symbol>
+<symbol id="herb-2" viewBox="0 0 120 120">
+ <g fill="url(#specRoot)" stroke="#6e3e27" stroke-width=".8"><path d="M71 12Q57 35 47 52T24 93L18 109Q31 98 35 89L61 57 80 18Z"/><path d="M81 17Q81 37 66 57L50 86 48 108Q58 95 60 88L81 64Q92 41 90 20Z"/><path d="M68 13Q46 27 36 48L24 69 12 80Q35 70 41 55L64 32 77 19Z"/><path d="M86 23Q99 46 91 70L86 87 91 104Q96 91 97 79L105 59Q107 37 92 19Z"/></g>
+ <g fill="none" stroke="#c58b5a" stroke-width="1" opacity=".8"><path d="M71 21Q50 55 26 96M84 25Q83 50 66 68L54 96M61 28L38 52 23 69M91 30Q102 54 92 80"/></g>
+ <g fill="none" stroke="#7a492e" stroke-width="1"><path d="M46 61L30 61 18 66M58 73L65 87 63 103M34 83L15 91M95 58L112 71M43 41L30 33 18 34M79 16L72 6M84 17L86 5"/></g>
+ <path d="M66 16L90 26 94 18 73 10Z" fill="#ba8450" stroke="#754c30"/><path d="M72 14L89 21" stroke="#e0b574" stroke-width="2"/>
+</symbol>
+<symbol id="herb-3" viewBox="0 0 120 120">
+ <g stroke="#ad9161" stroke-width="1.3"><path d="M58 12C75 8 89 18 91 34S82 60 64 61 36 50 35 34 44 15 58 12Z" fill="#bba176"/><path d="M58 9C75 5 89 15 91 31S82 57 64 58 36 47 35 31 44 12 58 9Z" fill="#f0dfb4"/><path d="M24 51C38 40 56 48 62 62S56 94 40 99 11 89 10 74 13 57 24 51Z" fill="#c7aa76"/><path d="M24 47C38 36 56 44 62 58S56 90 40 95 11 85 10 70 13 53 24 47Z" fill="#f3e4bd"/><path d="M84 55C100 52 113 65 110 82S94 107 78 101 59 82 64 69 72 56 84 55Z" fill="#c7aa76"/><path d="M84 51C100 48 113 61 110 78S94 103 78 97 59 78 64 65 72 52 84 51Z" fill="#f6e8c9"/></g>
+ <g fill="none" stroke="#c6ab77" stroke-width=".8"><ellipse cx="63" cy="32" rx="21" ry="18"/><ellipse cx="63" cy="32" rx="13" ry="11"/><ellipse cx="35" cy="68" rx="19" ry="20"/><ellipse cx="35" cy="68" rx="11" ry="12"/><ellipse cx="86" cy="75" rx="19" ry="18"/><ellipse cx="86" cy="75" rx="10" ry="10"/><path d="M63 15V25M47 23L54 27M45 40L55 36M76 19L69 27M82 39L72 36M65 50V41M20 56L28 62M17 77L27 72M32 88L34 78M51 58L43 63M72 65L79 69M86 58V66M99 83L94 80M75 89L81 82M99 64L94 68"/></g>
+</symbol>
+<symbol id="herb-4" viewBox="0 0 120 120">
+ <g stroke="#805b2f" stroke-width="1.2"><path d="M22 17L39 11 55 19 47 76 32 85 20 72Z" fill="url(#specGold)"/><path d="M23 18L32 24 49 19 39 10Z" fill="#e6c374"/><path d="M49 30L62 24 76 31 72 94 57 103 45 91Z" fill="url(#specGold)"/><path d="M50 30L61 36 75 30 62 24Z" fill="#edcf83"/><path d="M78 58Q88 48 100 54L109 72 100 90 82 90 73 75Z" fill="#a97e3e"/><path d="M78 53Q88 43 100 49L109 67 100 85 82 85 73 70Z" fill="#dec175"/></g>
+ <g fill="none" stroke="#805b2f" stroke-width="1" opacity=".8"><path d="M26 29L25 65M33 31L31 73M41 27L36 67M50 41L49 87M57 43L56 89M66 38L63 95M23 38L43 34M23 53L42 49M49 56L70 52M47 75L70 71"/><path d="M89 55L99 59 101 70 94 78 84 75 80 65Z"/><path d="M89 59L94 64 91 71 85 68Z"/></g>
+</symbol>
+<symbol id="herb-5" viewBox="0 0 120 120">
+ <g fill="url(#specIvory)" stroke="#b79f72" stroke-width=".8"><path d="M31 15L39 16Q43 39 35 59T31 91L24 111 23 92Q23 75 28 56T31 15Z"/><path d="M51 9L60 10Q54 41 61 61T55 108L50 112Q59 79 51 66T51 9Z"/><path d="M74 18L82 21Q72 41 78 65T71 109L68 111Q72 82 69 62T74 18Z"/><path d="M92 32L99 36Q88 58 92 72T85 107L80 111Q85 89 84 75T92 32Z"/></g>
+ <g fill="none" stroke="#c1a876" stroke-width=".8"><path d="M34 24Q37 44 31 58T27 94M55 18Q51 44 56 61T54 100M77 26Q70 48 73 62T72 97M94 42Q84 67 88 76L85 99M27 62L17 76 15 91M58 74L66 86 65 96M74 76L64 87M90 65L105 76"/><path d="M30 31L38 32M29 45H37M52 28H57M51 47H58M73 36L78 39M70 52L76 54M88 53L94 56M25 80L31 81M52 88L58 90"/></g>
+ <path d="M31 15L39 16M51 9L60 10M74 18L82 21M92 32L99 36" stroke="#95794c" stroke-width="2"/>
+</symbol>
+<symbol id="herb-6" viewBox="0 0 120 120">
+ <circle cx="77" cy="38" r="26" fill="url(#specBerry)" stroke="#86432e"/><path d="M76 16Q69 7 77 3" stroke="#756246" stroke-width="3" fill="none"/><path d="M78 13Q90 0 102 10Q93 20 78 13Z" fill="#7a8850" stroke="#5f6c3c" stroke-width="1"/>
+ <g stroke="#8b4d31" stroke-width="1.2"><path d="M33 45C49 40 67 53 65 73S50 105 30 100 7 82 11 65 19 48 33 45Z" fill="#8e4730"/><path d="M33 41C49 36 67 49 65 69S50 101 30 96 7 78 11 61 19 44 33 41Z" fill="#b35b3b"/><path d="M33 49C47 45 58 54 57 69S47 91 32 88 17 75 19 62 25 51 33 49Z" fill="#cfaa72"/><path d="M83 61C97 57 113 68 111 84S98 111 83 107 63 92 66 79 73 64 83 61Z" fill="#a45536"/><path d="M83 68C94 64 105 72 103 84S94 102 83 99 72 91 73 80 78 71 83 68Z" fill="#dfbf8b"/></g>
+ <g fill="#8b6039" stroke="#efd2a0" stroke-width=".6"><ellipse cx="31" cy="63" rx="4" ry="7" transform="rotate(-25 31 63)"/><ellipse cx="45" cy="63" rx="4" ry="7" transform="rotate(28 45 63)"/><ellipse cx="38" cy="78" rx="4" ry="7"/><ellipse cx="82" cy="80" rx="3" ry="5" transform="rotate(-25 82 80)"/><ellipse cx="93" cy="81" rx="3" ry="5" transform="rotate(30 93 81)"/><ellipse cx="87" cy="91" rx="3" ry="5"/></g><g fill="#efd3a7" opacity=".65"><circle cx="64" cy="25" r="1"/><circle cx="72" cy="32" r="1"/><circle cx="89" cy="28" r="1"/><circle cx="92" cy="39" r="1"/><circle cx="77" cy="44" r="1"/></g>
+</symbol>
+<symbol id="herb-7" viewBox="0 0 120 120">
+ <g fill="none" stroke="#8a6030" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M50 58L33 51 25 39M49 66L30 66 20 57M50 75L33 82 23 79M54 82L43 96 33 100M68 58L85 48 93 37M70 66L91 62 103 54M70 76L87 79 98 73M67 84L79 93 91 97"/></g>
+ <g fill="url(#specGold)" stroke="#795229" stroke-width="1.1"><ellipse cx="60" cy="68" rx="13" ry="24"/><path d="M50 48L48 38 58 32 68 38 69 48Z"/><path d="M49 39L36 32 31 23 26 28 29 39 44 46Z"/><path d="M69 40L79 31 82 19 88 23 87 36 75 47Z"/><path d="M27 30Q9 25 15 10L23 6 20 20 28 23 32 13Q40 24 27 30Z"/><path d="M84 25Q74 8 87 3L92 10 87 15 95 18 102 7Q111 25 95 30Z"/></g>
+ <path d="M61 90C64 106 82 113 99 102S115 72 103 60Q94 54 88 62" fill="none" stroke="#78502a" stroke-width="9" stroke-linecap="round"/><path d="M61 90C64 106 82 113 99 102S115 72 103 60Q94 54 88 62" fill="none" stroke="#bd904b" stroke-width="6" stroke-linecap="round"/><path d="M65 99L69 95M75 107L77 101M88 108V102M100 102L96 98M109 88L103 87M108 74L102 77M101 61L98 67" stroke="#78502a" stroke-width="2"/><path d="M88 60L85 72 80 64Z" fill="#654323"/>
+ <path d="M48 56Q60 61 71 55M48 64Q60 69 72 63M48 72Q60 77 72 71M51 80Q60 85 68 80" fill="none" stroke="#7e5a30"/><circle cx="54" cy="39" r="1.5" fill="#3f3324"/><circle cx="63" cy="38" r="1.5" fill="#3f3324"/>
+</symbol>
+<symbol id="herb-8" viewBox="0 0 120 120">
+ <g fill="#96916a" stroke="#66664b" stroke-width="1.2"><path d="M32 61Q12 58 12 76L22 88 8 100 29 96 45 80ZM82 61Q104 54 110 74L101 90 114 99 94 97 78 82Z"/><path d="M39 74L34 99 23 107 42 104 50 85M76 74L84 98 95 105 77 103 68 85"/><path d="M31 49Q35 28 58 27T89 48Q100 72 82 86T40 86Q20 73 31 49Z" fill="#a6a078"/><path d="M30 45Q22 26 35 20T51 33M68 32Q73 15 86 23T87 45"/></g>
+ <ellipse cx="36" cy="31" rx="6" ry="7" fill="#d4bd76"/><ellipse cx="80" cy="31" rx="6" ry="7" fill="#d4bd76"/><path d="M32 31H40M76 31H84" stroke="#3f4330" stroke-width="3"/><path d="M35 49Q57 58 84 48" fill="none" stroke="#6b644a"/><path d="M42 65Q59 58 76 65L73 81Q58 92 43 80Z" fill="#bdb58b" opacity=".6"/>
+ <g fill="#7f7c57" opacity=".8"><circle cx="41" cy="43" r="2"/><circle cx="55" cy="37" r="2.2"/><circle cx="67" cy="42" r="1.7"/><circle cx="76" cy="45" r="2"/><circle cx="34" cy="60" r="2.5"/><circle cx="38" cy="71" r="2"/><circle cx="85" cy="61" r="2.4"/><circle cx="81" cy="75" r="2"/><circle cx="23" cy="75" r="2"/><circle cx="98" cy="73" r="2.3"/><circle cx="50" cy="45" r="1"/><circle cx="66" cy="52" r="1"/></g>
+</symbol>
+<symbol id="herb-9" viewBox="0 0 120 120">
+ <path d="M57 32Q64 13 48 9T35 18Q36 27 45 21" fill="none" stroke="#76834f" stroke-width="2"/><path d="M57 26Q79 4 100 13L92 24 101 29 86 32 84 43 71 36 62 40Z" fill="#91a16c" stroke="#6a7a47"/><path d="M60 31L91 19M73 27L82 32M79 24L81 15" fill="none" stroke="#667948" stroke-width=".9"/>
+ <path d="M51 31Q77 26 91 48T88 92Q76 113 50 108T23 85Q12 57 30 40 39 32 51 31Z" fill="url(#specGold)" stroke="#a1773e" stroke-width="1.2"/><path d="M52 35Q32 63 44 104M62 34Q82 57 70 105M57 38Q49 73 56 107" fill="none" stroke="#e7c777" stroke-width="1.4"/><path d="M28 54Q19 75 32 92M85 54Q96 77 81 94" fill="none" stroke="#9f753e" stroke-width="1" opacity=".6"/><g fill="#e6cb86" opacity=".7"><circle cx="35" cy="61" r="1"/><circle cx="49" cy="51" r="1"/><circle cx="68" cy="62" r="1.2"/><circle cx="78" cy="78" r="1"/><circle cx="41" cy="86" r="1.2"/><circle cx="64" cy="93" r="1"/></g>
+</symbol>
+
+          </defs>
+          <g fill="none" stroke="#b4c2bd" stroke-width=".7" opacity=".35"><path d="M485 140q27-17 54 0t54 0m-85 17q27-17 54 0t54 0M810 440q27-17 54 0t54 0m-81 18q27-17 54 0t54 0m-84 18q27-17 54 0t54 0"/></g>
+          <text class="atlas-water" x="548" y="123" data-zh="渤 海" data-en="BOHAI SEA">渤 海</text><text class="atlas-water" x="790" y="469" data-zh="黄 海" data-en="YELLOW SEA">黄 海</text>
+          <use href="#atlasLand" fill="#d8be91" filter="url(#atlasPaperShadow)"/>
+          <g clip-path="url(#atlasClip)">
+            <path class="atlas-region" fill="#d5bd91" d="M35 50H565L572 218Q531 256 471 278T369 322Q312 355 256 402L205 465H35Z"/>
+            <path class="atlas-region" fill="#d5bd81" d="M35 465H205L256 402Q290 430 322 442L353 486 329 533 363 655H35Z"/>
+            <path class="atlas-region" fill="#c89984" d="M256 402Q312 355 369 322T471 278Q531 256 572 218L646 211 674 275 659 332 665 377 621 414 604 459 572 489 526 504Q477 482 439 520L402 540 353 486 322 442Q290 430 256 402Z"/>
+            <path class="atlas-region" fill="#aebc8f" d="M646 211L665 50H990V466L621 414 665 377 659 332 674 275Z"/>
+            <path class="atlas-region" fill="#a2b4a2" d="M353 486L402 540 439 520Q477 482 526 504L572 489 604 459 621 414 700 655H363L329 533Z"/>
+            <use href="#atlasLand" fill="url(#atlasHatch)"/>
+            <path d="M170 449Q192 416 236 395T310 356Q334 343 356 332T398 290Q441 264 461 225T475 164L488 150" fill="none" stroke="#71918c" stroke-width="3" opacity=".66"/>
+            <path d="M173 452Q195 419 238 398T313 359Q337 346 359 335T401 293Q444 267 464 228T478 167L491 153" fill="none" stroke="#f4eedb" stroke-width="1" opacity=".75"/>
+            <g stroke="#8c7158" stroke-width="1.2" fill="none" opacity=".35"><path d="M310 411l19-29 13 19 12-35 20 43m-40-3 10-15 10 15M398 465l20-31 16 20 12-27 20 37M505 413l16-26 12 17 16-37 19 34"/></g>
+            <text class="atlas-area-name" x="222" y="255" data-zh="黄河平原" data-en="RIVER PLAINS">黄河平原</text><text class="atlas-area-name" x="333" y="449" data-zh="泰沂山地" data-en="TAIYI MOUNTAINS">泰沂山地</text><text class="atlas-area-name" x="695" y="202" data-zh="胶东丘陵" data-en="JIAODONG HILLS">胶东丘陵</text>
+          </g>
+          <use href="#atlasLand" fill="none" stroke="#a38f6b" stroke-width="1.4"/>
+          <text x="430" y="257" fill="#647d78" font-size="11" transform="rotate(-53 430 257)" data-zh="黄 河" data-en="Yellow River">黄 河</text>
+          <g fill="#b4bc95" stroke="#a38f6b" stroke-width=".8" aria-hidden="true"><path d="M710 107l3-5 3 2-1 6Z M714 91l2-5 3 3-1 4Z M717 76l2-4 2 3-1 3Z"/></g><g id="atlasMarkers"></g>
+          <g transform="translate(88 127)" fill="#9a825c"><path d="M0-24L7 4 0 0-7 4Z"/><path d="M0 0V20M-13 7H13" fill="none" stroke="#aa9773" stroke-width=".7"/><text y="-32" text-anchor="middle" font-size="10" font-family="Georgia,serif">N</text><circle cy="7" r="17" fill="none" stroke="#b3a17f" stroke-width=".7"/></g>
+          <g transform="translate(777 584)"><text font-size="12" fill="#987f57" letter-spacing="3" data-zh="山 东 道 地 药 材" data-en="HERBAL SHANDONG">山 东 道 地 药 材</text><text y="52" fill="#66523b" font-size="45" font-weight="bold" letter-spacing="6" data-zh="鲁十味" data-en="LU TEN">鲁十味</text><path d="M0 65H169" stroke="#a88c60" stroke-width="1"/><text y="83" font-size="9" fill="#9e8c70" letter-spacing="2">TEN HERBS · ONE LAND</text></g>
+        </svg>
+        <p class="atlas-map-note" data-zh="产地艺术示意 · 点击图示，翻阅本草" data-en="Illustrated origin map · Select a specimen">产地艺术示意 · 点击图示，翻阅本草</p>
+      </div>
+      <aside class="atlas-detail" aria-label="当前药材标本">
+        <div class="atlas-detail-top"><span>SPECIMEN NOTES</span><span id="atlasNumber">01 / 10</span></div>
+        <div class="atlas-detail-visual" id="atlasVisual" aria-hidden="true"></div>
+        <h4 id="atlasName">金银花</h4><p class="atlas-detail-latin" id="atlasLatin">Honeysuckle</p>
+        <p class="atlas-detail-origin" id="atlasOrigin">山东平邑 · 沂蒙山区</p>
+        <p class="atlas-detail-label" data-zh="标 本 观 察" data-en="A CLOSER LOOK">标 本 观 察</p>
+        <p class="atlas-detail-description" id="atlasDescription"></p>
+        <button class="atlas-open" id="atlasOpen"><span data-zh="翻阅本草故事" data-en="Read its story">翻阅本草故事</span><span aria-hidden="true">↗</span></button>
+      </aside>
+    </div>
+    <p class="atlas-mobile-tip" data-zh="轻点下方标本，查看对应产地与说明" data-en="Tap a specimen below to view its origin and notes">轻点下方标本，查看对应产地与说明</p>
+    <div class="atlas-shelf" id="atlasShelf" role="group" aria-label="十味药材标本索引"></div>
+    <div class="atlas-footer"><span data-zh="色块为景观示意，非行政区划；标注为原网页代表产地，非全部产区。" data-en="Colors illustrate landscapes, not administrative borders. Origins follow the original page and are not exhaustive.">色块为景观示意，非行政区划；标注为原网页代表产地，非全部产区。</span><strong data-zh="十味本草 · 一地风物" data-en="TEN HERBS · ONE LAND">十味本草 · 一地风物</strong></div>
+    <p class="atlas-accessible-note" id="atlasLive" aria-live="polite" aria-atomic="true"></p>
+  </div>
+
+</section>
+
+<!-- 药材展厅 -->
+<section class="section gallery-bg" id="gallery">
+  <div class="reveal">
+    <span class="section-label" data-zh="角色展厅" data-en="Gallery">角色展厅</span>
+    <h2 class="section-title" data-zh="鲁十味 · 药材拟人" data-en="TEN HERBS · CHARACTER GALLERY">鲁十味 · 药材拟人</h2>
+    <p class="section-desc" data-zh="山东道地药材名录收录八十种本草，其中“鲁十味”为齐鲁大地最具代表性的十味道地药材。点击其立绘，即可了解它的人物设定、药材本相与古籍中的故事。" data-en="The 'Lu Ten Herbs' are the most representative authentic herbs of Shandong. Click each card to discover the character, origin and ancient stories.">
+      山东道地药材名录收录八十种本草，其中“鲁十味”为齐鲁大地最具代表性的十味道地药材。点击其立绘，即可了解它的人物设定、药材本相与古籍中的故事。
+    </p>
+  </div>
+  <div class="gallery-grid">
+    <div class="herb-card reveal" onclick="openModal(0)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #d4b84a, #a88f2e)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🌼</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="金银花" data-en="Honeysuckle">金银花</div>
+        <div class="herb-card-origin" data-zh="山东平邑 · 沂蒙山区" data-en="Pingyi, Shandong">山东平邑 · 沂蒙山区</div>
+        <div class="herb-card-tag" data-zh="鲁十味之首" data-en="Top of Ten">鲁十味之首</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(1)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #8b5e3c, #5c3a22)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🪵</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="阿胶" data-en="Ejiao">阿胶</div>
+        <div class="herb-card-origin" data-zh="山东东阿 · 狮耳山" data-en="Dong'e, Shandong">山东东阿 · 狮耳山</div>
+        <div class="herb-card-tag" data-zh="千年圣药" data-en="Ancient Tonic">千年圣药</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(2)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #a8323a, #7a1e26)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🩸</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="丹参" data-en="Salvia">丹参</div>
+        <div class="herb-card-origin" data-zh="山东莒县 · 库山乡" data-en="Juxian, Shandong">山东莒县 · 库山乡</div>
+        <div class="herb-card-tag" data-zh="一味抵四物" data-en="Four in One">一味抵四物</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(3)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #4a7c6f, #2e554a)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🌿</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="西洋参" data-en="Ginseng">西洋参</div>
+        <div class="herb-card-origin" data-zh="山东文登 · 昆嵛山" data-en="Wendeng, Shandong">山东文登 · 昆嵛山</div>
+        <div class="herb-card-tag" data-zh="引种传奇" data-en="Import Legend">引种传奇</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(4)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #c9a05c, #9a733a)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">💛</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="黄芩" data-en="Scutellaria">黄芩</div>
+        <div class="herb-card-origin" data-zh="山东莒县 · 泰沂山区" data-en="Juxian, Shandong">山东莒县 · 泰沂山区</div>
+        <div class="herb-card-tag" data-zh="苦寒良药" data-en="Bitter Remedy">苦寒良药</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(5)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #b8c4bc, #8a9a92)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🤍</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="北沙参" data-en="Glehnia">北沙参</div>
+        <div class="herb-card-origin" data-zh="山东莱阳 · 五龙河畔" data-en="Laiyang, Shandong">山东莱阳 · 五龙河畔</div>
+        <div class="herb-card-tag" data-zh="莱阳参" data-en="Laiyang Ginseng">莱阳参</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(6)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #c0392b, #8e2118)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🍎</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="山楂" data-en="Hawthorn">山楂</div>
+        <div class="herb-card-origin" data-zh="山东青州 · 仰天山" data-en="Qingzhou, Shandong">山东青州 · 仰天山</div>
+        <div class="herb-card-tag" data-zh="药食两用" data-en="Food & Medicine">药食两用</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(7)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #6b5b4a, #3d3228)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🦂</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="全蝎" data-en="Scorpion">全蝎</div>
+        <div class="herb-card-origin" data-zh="山东青州 · 仰天山" data-en="Qingzhou, Shandong">山东青州 · 仰天山</div>
+        <div class="herb-card-tag" data-zh="虫药奇兵" data-en="Insect Herb">虫药奇兵</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(8)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #5a7a5a, #365436)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🐸</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="蟾酥" data-en="Toad Secretion">蟾酥</div>
+        <div class="herb-card-origin" data-zh="山东莒南 · 沭河两岸" data-en="Junan, Shandong">山东莒南 · 沭河两岸</div>
+        <div class="herb-card-tag" data-zh="月宫之物" data-en="Moon Secret">月宫之物</div>
+      </div>
+    </div>
+    <div class="herb-card reveal" onclick="openModal(9)">
+      <div class="herb-card-visual" style="background: linear-gradient(135deg, #c9a05c, #a07830)">
+        <div class="herb-card-ring"></div>
+        <div class="herb-avatar">🍈</div>
+      </div>
+      <div class="herb-card-info">
+        <div class="herb-card-name" data-zh="瓜蒌" data-en="Trichosanthes">瓜蒌</div>
+        <div class="herb-card-origin" data-zh="山东长清 · 马山" data-en="Changqing, Shandong">山东长清 · 马山</div>
+        <div class="herb-card-tag" data-zh="化痰良品" data-en="Lung Remedy">化痰良品</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 本草故事（10味补全版） -->
+<section class="section story-section" id="stories">
+  <div class="reveal">
+    <span class="section-label" data-zh="本草故事" data-en="Stories">本草故事</span>
+    <h2 class="section-title" data-zh="一草一木 · 皆有来历" data-en="EVERY HERB HAS A STORY">一草一木 · 皆有来历</h2>
+    <p class="section-desc" data-zh="每一味山东道地药材，都承载着一段跨越千年的故事。从《神农本草经》到《本草纲目》，这些草木的来历，也是齐鲁大地的文化记忆。" data-en="Every authentic herb carries a thousand-year story, from ancient herbal classics to Shandong’s cultural memory.">
+      每一味山东道地药材，都承载着一段跨越千年的故事。从《神农本草经》到《本草纲目》，这些草木的来历，也是齐鲁大地的文化记忆。
+    </p>
+  </div>
+  <div class="story-list">
+    <!-- 1 金银花 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #d4b84a, #a88f2e)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🌼</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="金银花" data-en="Honeysuckle">金银花</h3>
+        <div class="story-sub" data-zh="平邑 · 天宝山的孪生姐妹" data-en="Pingyi · Twin Sisters of Tianbao">平邑 · 天宝山的孪生姐妹</div>
+        <p data-zh="沂蒙山腹地的天宝山下，一对孪生姐妹金花与银花为救瘟疫中的乡亲，翻山越岭寻得开黄白双花的藤蔓。她们以花入药，救活全村。后来，这种花便有了名字——金银花。" data-en="Twin sisters Jinhua and Yinhua searched the mountains for a yellow-white flower vine to cure their village. The flower was named after them — Jinyinhua.">
+          沂蒙山腹地的天宝山下，一对孪生姐妹金花与银花为救瘟疫中的乡亲，翻山越岭寻得开黄白双花的藤蔓。她们以花入药，救活全村。后来，这种花便有了名字——金银花。
+        </p>
+        <div class="story-en">Twin sisters Jinhua and Yinhua found a dual-blossom vine and saved their village from plague. The flower was named in their honor.</div>
+      </div>
+    </div>
+    <!-- 2 阿胶 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #8b5e3c, #5c3a22)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🪵</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="阿胶" data-en="Ejiao">阿胶</h3>
+        <div class="story-sub" data-zh="东阿 · 阿井水与狮耳驴皮" data-en="Dong'e · Spring Water & Donkey Hide">东阿 · 阿井水与狮耳驴皮</div>
+        <p data-zh="东阿孤女阿娇，为解乡亲虚劳之疾，得药王菩萨指点，取狮耳山驴皮，配狼溪河水与八十一味草药，以桑木柴火熬制。熬出的胶块乌黑透亮，服之神效。此后千年，阿胶一直是山东献给天下的滋补圣品。" data-en="Orphan girl Ajiao created the tonic using spring water and donkey hide under divine guidance. For a thousand years, Ejiao has been Shandong’s supreme tonic.">
+          东阿孤女阿娇，为解乡亲虚劳之疾，得药王菩萨指点，取狮耳山驴皮，配狼溪河水与八十一味草药，以桑木柴火熬制。熬出的胶块乌黑透亮，服之神效。此后千年，阿胶一直是山东献给天下的滋补圣品。
+        </p>
+        <div class="story-en">Ajiao crafted the legendary tonic from local spring water and donkey hide. Ejiao has remained Shandong’s most famous tonic for over a millennium.</div>
+      </div>
+    </div>
+    <!-- 3 丹参 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #a8323a, #7a1e26)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🩸</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="丹参" data-en="Salvia">丹参</h3>
+        <div class="story-sub" data-zh="莒县 · 一片丹心" data-en="Juxian · Crimson Heart">莒县 · 一片丹心</div>
+        <p data-zh="东海渔村的阿明，为治愈母亲的崩漏之症，只身渡海采回一种紫蓝花、红根的草药。人们说，这药凝结了阿明的一片丹心，便取名“丹心”，后来谐音成了“丹参”。" data-en="A young fisherman crossed the sea alone to find a crimson-rooted herb to cure his mother. People said the herb embodied his “crimson heart” — and so it came to be called Danshen.">
+          东海渔村的阿明，为治愈母亲的崩漏之症，只身渡海采回一种紫蓝花、红根的草药。人们说，这药凝结了阿明的一片丹心，便取名“丹心”，后来谐音成了“丹参”。
+        </p>
+        <div class="story-en">A young fisherman found the crimson-rooted herb for his mother. Its name means “crimson heart” in honor of his devotion.</div>
+      </div>
+    </div>
+    <!-- 4 西洋参 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #4a7c6f, #2e554a)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🌿</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="西洋参" data-en="Ginseng">西洋参</h3>
+        <div class="story-sub" data-zh="文登 · 八棵参苗到六万亩参田" data-en="Wendeng · 8 Seedlings to 60,000 Mu">文登 · 八棵参苗到六万亩参田</div>
+        <p data-zh="四十多年前，八棵西洋参苗在文登的土地上扎下了根。没有人想到，这些远渡重洋的异乡客，会在昆嵛山南麓长成六万亩参田，皂苷含量甚至超过了它们的北美故乡。" data-en="Forty years ago, eight ginseng seedlings took root in Wendeng. They grew into sixty thousand acres of fields, with saponin content surpassing even their North American homeland.">
+          四十多年前，八棵西洋参苗在文登的土地上扎下了根。没有人想到，这些远渡重洋的异乡客，会在昆嵛山南麓长成六万亩参田，皂苷含量甚至超过了它们的北美故乡。
+        </p>
+        <div class="story-en">Eight seedlings grew into vast ginseng fields, with potency exceeding their North American origin.</div>
+      </div>
+    </div>
+    <!-- 5 黄芩 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #c9a05c, #9a733a)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">💛</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="黄芩" data-en="Scutellaria">黄芩</h3>
+        <div class="story-sub" data-zh="莒县 · 神农遇芩草" data-en="Juxian · Shennong & the Yellow Herb">莒县 · 神农遇芩草</div>
+        <p data-zh="相传神农尝百草行至泰沂山区，见坡上生有一种色黄根深的野草。山民告知此草名芩，味苦而性清，每逢暑热便采来煮水。后人因色黄形正，呼为黄芩。莒县库山的黄芩种植世代相传，是齐鲁山野最负盛名的黄色本草。" data-en="When Shennong traveled the Taiyi Mountains, he found a yellow-rooted herb. Locals called it Qin, bitter and cooling, brewed in summer heat. Later named Huangqin for its yellow color.">
+          相传神农尝百草行至泰沂山区，见坡上生有一种色黄根深的野草。山民告知此草名芩，味苦而性清，每逢暑热便采来煮水。后人因色黄形正，呼为黄芩。莒县库山的黄芩种植世代相传，是齐鲁山野最负盛名的黄色本草。
+        </p>
+        <div class="story-en">Shennong discovered the bitter cooling herb in the mountains. It was named for its golden yellow roots.</div>
+      </div>
+    </div>
+    <!-- 6 北沙参 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #b8c4bc, #8a9a92)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🤍</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="北沙参" data-en="Glehnia">北沙参</h3>
+        <div class="story-sub" data-zh="莱阳 · 五龙河畔的洁白参" data-en="Laiyang · White Ginseng by Wulong River">莱阳 · 五龙河畔的洁白参</div>
+        <p data-zh="莱阳五龙河畔的沙土地里，生长着一种洁白修长的草根。当地人叫它“莱胡参”，相传早年有胡姓药农，在沙地里培育出这种润白的参，根条顺直，断面有菊花纹。百年以来，莱阳沙参凭一身洁白，成了平原沙地里的道地名产。" data-en="In the sandy soil by Laiyang’s Wulong River grows a white, slender root. Locals call it Laihu ginseng, cultivated by a herbalist surnamed Hu. For centuries, it has been a famous authentic herb from the plains.">
+          莱阳五龙河畔的沙土地里，生长着一种洁白修长的草根。当地人叫它“莱胡参”，相传早年有胡姓药农，在沙地里培育出这种润白的参，根条顺直，断面有菊花纹。百年以来，莱阳沙参凭一身洁白，成了平原沙地里的道地名产。
+        </p>
+        <div class="story-en">The pale slender root grows by the Wulong River. Named after the herbalist who cultivated it, it is Laiyang’s signature authentic herb.</div>
+      </div>
+    </div>
+    <!-- 7 山楂 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #c0392b, #8e2118)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🍎</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="山楂" data-en="Hawthorn">山楂</h3>
+        <div class="story-sub" data-zh="青州 · 仰天山的红果" data-en="Qingzhou · Red Fruits of Yangtian">青州 · 仰天山的红果</div>
+        <p data-zh="青州仰天山下的山楂林，自古便闻名。老人们说，早年山里有户人家，孩子积食腹胀，摘了山里红果煮水喝下，不久便消食化积。后来人们便叫这红果山楂，既做鲜果吃食，也入药中良品。青州山楂果大肉厚，酸甜适口，是齐鲁大地药食两用的代表。" data-en="The hawthorn forests below Qingzhou’s Yangtian Mountain have been famous since ancient times. Locals say a family once fed their sick child wild red fruits, and the digestion issue soon eased.">
+          青州仰天山下的山楂林，自古便闻名。老人们说，早年山里有户人家，孩子积食腹胀，摘了山里红果煮水喝下，不久便消食化积。后来人们便叫这红果山楂，既做鲜果吃食，也入药中良品。青州山楂果大肉厚，酸甜适口，是齐鲁大地药食两用的代表。
+        </p>
+        <div class="story-en">Wild red fruits cured a child’s digestion. Later named Shanzha, it is both fruit and fine herb.</div>
+      </div>
+    </div>
+    <!-- 8 全蝎 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #6b5b4a, #3d3228)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🦂</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="全蝎" data-en="Scorpion">全蝎</h3>
+        <div class="story-sub" data-zh="青州 · 山石间的灵物" data-en="Qingzhou · Spirit of the Rocks">青州 · 山石间的灵物</div>
+        <p data-zh="青州山石嶙峋，岩缝间自古便有山蝎栖息。《证类本草》有言“蝎出青州者良”，千百年间，采药人循山岩缝隙寻取，全蝎身形完整，色黄质佳。当地人说，山石养蝎，蝎助世人，是齐鲁山石间的灵物。" data-en="Qingzhou’s rocky mountains have been home to scorpions since ancient times. Classified Materia Medica states “scorpions from Qingzhou are finest”. Locals say the mountains nurture scorpions, and scorpions help people.">
+          青州山石嶙峋，岩缝间自古便有山蝎栖息。《证类本草》有言“蝎出青州者良”，千百年间，采药人循山岩缝隙寻取，全蝎身形完整，色黄质佳。当地人说，山石养蝎，蝎助世人，是齐鲁山石间的灵物。
+        </p>
+        <div class="story-en">Ancient texts praise Qingzhou scorpions as the finest. They are considered spirits of Shandong’s rocky mountains.</div>
+      </div>
+    </div>
+    <!-- 9 蟾酥 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #5a7a5a, #365436)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🐸</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="蟾酥" data-en="Toad Secretion">蟾酥</h3>
+        <div class="story-sub" data-zh="莒南 · 端午取白脂" data-en="Junan · White Secret of Dragon Boat">莒南 · 端午取白脂</div>
+        <p data-zh="莒南沭河岸边的湿地里，蟾蜍自古便生息于此。老药农说，端午正午时分，取蟾蜍耳后白脂，阴干之后便是蟾酥，色白质坚，谓之“光东酥”。这门手艺代代相传，是莒南乡野里最隐秘的本草智慧。" data-en="Toads have inhabited Junan’s wetlands since ancient times. Old herbalists say at noon on Dragon Boat Festival, the white secretion from toads’ ear glands becomes chansu — bright and firm. The craft passes down generations.">
+          莒南沭河岸边的湿地里，蟾蜍自古便生息于此。老药农说，端午正午时分，取蟾蜍耳后白脂，阴干之后便是蟾酥，色白质坚，谓之“光东酥”。这门手艺代代相传，是莒南乡野里最隐秘的本草智慧。
+        </p>
+        <div class="story-en">The white toad secretion, harvested at Dragon Boat noon, is Junan’s most secret herbal craft.</div>
+      </div>
+    </div>
+    <!-- 10 瓜蒌 -->
+    <div class="story-item reveal">
+      <div class="story-illust" style="background: linear-gradient(135deg, #c9a05c, #a07830)">
+        <div class="story-illust-bg"></div>
+        <div class="story-illust-icon">🍈</div>
+      </div>
+      <div class="story-text">
+        <h3 data-zh="瓜蒌" data-en="Trichosanthes">瓜蒌</h3>
+        <div class="story-sub" data-zh="长清 · 马山的圆果" data-en="Changqing · Round Fruits of Mashan">长清 · 马山的圆果</div>
+        <p data-zh="长清马山一带，自古便种瓜蒌。藤蔓沿架攀援，秋日结出橙黄圆果，从果皮到果仁全可入药。当地人说，瓜蒌一身都是宝，藤蔓绕着山，果实养着人，是长清山野里岁岁丰收的本草印记。" data-en="Changqing’s Mashan area has grown trichosanthes since ancient times. Vines climb frames, bearing orange round fruits in autumn — every part usable. Locals say every part of the fruit is precious.">
+          长清马山一带，自古便种瓜蒌。藤蔓沿架攀援，秋日结出橙黄圆果，从果皮到果仁全可入药。当地人说，瓜蒌一身都是宝，藤蔓绕着山，果实养着人，是长清山野里岁岁丰收的本草印记。
+        </p>
+        <div class="story-en">Every part of the round autumn fruit is usable. It is Changqing’s annual harvest herbal landmark.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 人与自然 -->
+<section class="section" id="nature">
+  <div class="reveal">
+    <span class="section-label" data-zh="人与自然" data-en="Nature & People">人与自然</span>
+    <h2 class="section-title" data-zh="采天地精华 · 合四时之气" data-en="HARVEST IN SEASON · HARMONY WITH NATURE">采天地精华 · 合四时之气</h2>
+    <p class="section-desc" data-zh="古人采药，不是征服自然，而是顺应自然。“顺时取养、采天地精华”的采集传统，背后是“天人合一”的东方生命哲学。" data-en="Ancient herb gatherers followed nature, not conquered it. This is the Eastern philosophy of harmony between man and nature.">
+      古人采药，不是征服自然，而是顺应自然。“顺时取养、采天地精华”的采集传统，背后是“天人合一”的东方生命哲学。
+    </p>
+  </div>
+  <div class="nature-grid reveal">
+    <div class="nature-card">
+      <div class="num">01</div>
+      <h4 data-zh="顺时而采" data-en="Harvest in Season">顺时而采</h4>
+      <p data-zh="古人采药讲究“时令”。端午阳气最盛，百草药性最强，故有“端午节前都是草，到了端午便成药”之说。不是人选择了时辰，而是时辰选择了药。" data-en="Ancient gatherers followed seasons. Herbs are most potent around the Dragon Boat Festival. Time chooses the herb, not the other way around.">
+        古人采药讲究“时令”。端午阳气最盛，百草药性最强，故有“端午节前都是草，到了端午便成药”之说。不是人选择了时辰，而是时辰选择了药。
+      </p>
+    </div>
+    <div class="nature-card">
+      <div class="num">02</div>
+      <h4 data-zh="择地而取" data-en="Grown by the Land">择地而取</h4>
+      <p data-zh="“一方水土，造就一方良药。”同一种药材，生在不同土地，品性截然不同。这就是“道地”二字的真正含义——药的好，在它生长的那片土地。" data-en="Each land creates its own superior herb. This is the true meaning of 'authentic' — quality comes from the land where it grows.">
+        “一方水土，造就一方良药。”同一种药材，生在不同土地，品性截然不同。这就是“道地”二字的真正含义——药的好，在它生长的那片土地。
+      </p>
+    </div>
+    <div class="nature-card">
+      <div class="num">03</div>
+      <h4 data-zh="取之有度" data-en="Harvest with Restraint">取之有度</h4>
+      <p data-zh="古人采药，从不涸泽而渔。采根者留苗，采叶者护根，采果者留种。草木有灵，取之有时，用之有节，人不是自然的征服者，而是参与者。" data-en="Ancient gatherers never exhausted nature. They left seeds and roots. Plants have spirit; harvest in time, use with restraint.">
+        古人采药，从不涸泽而渔。采根者留苗，采叶者护根，采果者留种。草木有灵，取之有时，用之有节，人不是自然的征服者，而是参与者。
+      </p>
+    </div>
+    <div class="nature-card">
+      <div class="num">04</div>
+      <h4 data-zh="天人合一" data-en="Unity of Nature & Man">天人合一</h4>
+      <p data-zh="“采”字的本义是伸手摘取草木果实。从远古先民采摘果腹，到后世采药疗疾，“采”早已沉淀为“顺时取养、聚气凝神”的生命哲学。" data-en="The character 'harvest' originally meant picking fruit. It has evolved into a philosophy of following nature and gathering vitality.">
+        “采”字的本义是伸手摘取草木果实。从远古先民采摘果腹，到后世采药疗疾，“采”早已沉淀为“顺时取养、聚气凝神”的生命哲学。
+      </p>
+    </div>
+  </div>
+  <div class="harvest-cycle reveal">
+    <h4 data-zh="古法采药 · 四时之序" data-en="Ancient Harvest · Four Seasons">古法采药 · 四时之序</h4>
+    <div class="cycle-track">
+      <div class="cycle-node">
+        <div class="cycle-dot">🌱</div>
+        <div class="label" data-zh="春 · 升发" data-en="Spring · Rise">春 · 升发</div>
+        <div class="sub" data-zh="采嫩叶、挖根茎" data-en="Tender leaves, roots">采嫩叶、挖根茎</div>
+      </div>
+      <div class="cycle-node">
+        <div class="cycle-dot">🌿</div>
+        <div class="label" data-zh="夏 · 繁茂" data-en="Summer · Flourish">夏 · 繁茂</div>
+        <div class="sub" data-zh="采花、采全草" data-en="Flowers, whole herbs">采花、采全草</div>
+      </div>
+      <div class="cycle-node">
+        <div class="cycle-dot">🍂</div>
+        <div class="label" data-zh="秋 · 收敛" data-en="Autumn · Harvest">秋 · 收敛</div>
+        <div class="sub" data-zh="采果实、种子" data-en="Fruits, seeds">采果实、种子</div>
+      </div>
+      <div class="cycle-node">
+        <div class="cycle-dot">🪵</div>
+        <div class="label" data-zh="冬 · 闭藏" data-en="Winter · Store">冬 · 闭藏</div>
+        <div class="sub" data-zh="采根、皮" data-en="Roots, bark">采根、皮</div>
+      </div>
+      <div class="cycle-node">
+        <div class="cycle-dot">🌙</div>
+        <div class="label" data-zh="端午 · 午时" data-en="Dragon Boat · Noon">端午 · 午时</div>
+        <div class="sub" data-zh="百草药性最强" data-en="Peak potency">百草药性最强</div>
+      </div>
+      <div class="cycle-node">
+        <div class="cycle-dot">☀️</div>
+        <div class="label" data-zh="晴朗 · 晨露" data-en="Sunny · Morning Dew">晴朗 · 晨露</div>
+        <div class="sub" data-zh="露水未干时采" data-en="Harvest before dew dries">露水未干时采</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 创作理念 -->
+<section class="section concept-section" id="concept">
+  <div class="reveal">
+    <span class="section-label" data-zh="创作理念" data-en="Concept">创作理念</span>
+    <h2 class="section-title" data-zh="以现代数字 · 传千年本草" data-en="DIGITAL INHERITS ANCIENT HERBS">以现代数字 · 传千年本草</h2>
+    <p class="section-desc" data-zh="以交互网页为载体，面向海外青年传播齐鲁本草传统文化，让古老的本草文化以年轻的姿态走向世界。" data-en="Interactive web as carrier, spreading Shandong herbal culture to overseas youth with a modern voice.">
+      以交互网页为载体，面向海外青年传播齐鲁本草传统文化，让古老的本草文化以年轻的姿态走向世界。
+    </p>
+  </div>
+  <div class="concept-grid">
+    <div class="concept-item">
+      <div class="concept-icon">🌏</div>
+      <h4 data-zh="国际传播" data-en="Global Communication">国际传播</h4>
+      <p data-zh="双语对照，弱化专业术语，以人文故事降低文化壁垒，面向海外青年讲述东方本草文化。" data-en="Bilingual humanistic stories lower cultural barriers, introducing Eastern herbal culture to overseas youth.">
+        双语对照，弱化专业术语，以人文故事降低文化壁垒，面向海外青年讲述东方本草文化。
+      </p>
+    </div>
+    <div class="concept-item">
+      <div class="concept-icon">🎨</div>
+      <h4 data-zh="拟人IP" data-en="Anthropomorphic IP">拟人IP</h4>
+      <p data-zh="十味本草化为十位角色，以动漫形象赋予草木温度，让传统文化贴近年轻审美。" data-en="Herbs become vivid characters, endowing plants with warmth through anime aesthetics.">
+        十味本草化为十位角色，以动漫形象赋予草木温度，让传统文化贴近年轻审美。
+      </p>
+    </div>
+    <div class="concept-item">
+      <div class="concept-icon">💻</div>
+      <h4 data-zh="交互体验" data-en="Interactive Experience">交互体验</h4>
+      <p data-zh="网页轻交互设计，点击即读，适配多终端，以数字技术活化传统本草文化。" data-en="Lightweight interaction, multi-device support, revitalizing traditional herbal culture with digital technology.">
+        网页轻交互设计，点击即读，适配多终端，以数字技术活化传统本草文化。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 弹窗 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-head">
+      <div class="modal-avatar" id="modalAvatar">🌼</div>
+      <div class="modal-head-text">
+        <h3 id="modalName">金银花</h3>
+        <p id="modalOrigin">山东平邑 · 沂蒙山区</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <h4 data-zh="人物设定" data-en="Character">人物设定</h4>
+        <p id="modalPersona">沂蒙山间的双生少女，一袭白衣中透着淡金。性情温和而坚韧，最擅长在酷暑中为人们送去清凉。</p>
+      </div>
+      <div class="modal-section">
+        <h4 data-zh="本草古籍" data-en="Ancient Text">本草古籍</h4>
+        <div class="story-quote" id="modalStory">《神农本草经》将金银花列为上品，称其“久服轻身，长年益寿”。山东平邑是金银花的原生地之一，栽培历史逾两百年。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="footer-brand" data-zh="本草山东" data-en="Herbal Shandong">本草山东</div>
+  <div data-zh="齐鲁道地药材文化数字展馆" data-en="Digital Gallery of Shandong Authentic Herbs">齐鲁道地药材文化数字展馆</div>
+  <div data-zh="资料来源：山东省卫生健康委员会《山东省道地药材名录》·《神农本草经》·《本草纲目》" data-en="Source: Shandong Authentic Herbs Catalogue · Shennong's Herbal Classic · Compendium of Materia Medica">
+    资料来源：山东省卫生健康委员会《山东省道地药材名录》·《神农本草经》·《本草纲目》
+  </div>
+  <div style="margin-top:8px; font-size:0.7rem; opacity:0.5;" data-zh="仅供文化学习与展示" data-en="For cultural learning and display only">
+    仅供文化学习与展示
+  </div>
+</footer>
+
+<script>
+// 弹窗数据
+const modalData = [
+  {
+    emoji: '🌼', nameZh: '金银花', nameEn: 'Honeysuckle',
+    originZh: '山东平邑 · 沂蒙山区', originEn: 'Pingyi, Shandong',
+    personaZh: '沂蒙山间的双生少女，一袭白衣中透着淡金。性情温和而坚韧，最擅长在酷暑中为人们送去清凉。她总说：“我的花，白天是银，夜晚是金，但最好的时刻，是被人需要的时候。”',
+    personaEn: 'Twin maidens of the Yimeng mountains, robes of white and pale gold. Gentle yet resilient, they bring coolness in summer heat.',
+    storyZh: '《神农本草经》将金银花列为上品，称其“久服轻身，长年益寿”。山东平邑是金银花的原生地之一，栽培历史逾两百年，如今仍是全国最大的金银花集散地。',
+    storyEn: 'Shennong’s Herbal Classic ranks honeysuckle as top grade. Pingyi is one of its native lands, with over 200 years of cultivation history.',
+    gradient: 'linear-gradient(135deg, #d4b84a, #a88f2e)'
+  },
+  {
+    emoji: '🪵', nameZh: '阿胶', nameEn: 'Ejiao',
+    originZh: '山东东阿 · 狮耳山', originEn: "Dong'e, Shandong",
+    personaZh: '深沉的守护者，身上带着阿井水的清冽与驴皮胶的温厚。他不轻易说话，但每一个字都沉甸甸的。千年来，他守着一口井、一条河、一座山，把时间熬成了药。',
+    personaEn: 'A solemn guardian, bearing the clarity of ancient spring water and the warmth of donkey hide gel. For a thousand years he has guarded the well, the river, the mountain.',
+    storyZh: '李时珍《本草纲目》载：“阿胶，《本经》上品，弘景曰‘出东阿，故名阿胶’。”东阿阿胶以驴皮、阿井水为道地之本，被誉为“补血圣药”。',
+    storyEn: 'Compendium of Materia Medica records: "Ejiao is top grade, named after Dong’e where it is produced." It is known as the supreme blood tonic.',
+    gradient: 'linear-gradient(135deg, #8b5e3c, #5c3a22)'
+  },
+  {
+    emoji: '🩸', nameZh: '丹参', nameEn: 'Salvia',
+    originZh: '山东莒县 · 库山乡', originEn: 'Juxian, Shandong',
+    personaZh: '红衣赤心的青年，沉默而热烈。他的根是红的，心也是红的。他说自己叫“丹参”，其实本该叫“丹心”——一颗为母、为民而跳动的心。',
+    personaEn: 'A youth in crimson red, silent yet passionate. His roots are red, and so is his heart. His name means “crimson heart”.',
+    storyZh: '古人有“一味丹参，功同四物”之说，言其活血化瘀、调经止痛之效，可与四物汤比肩。山东丹参的丹参酮ⅡA与丹酚酸B含量全国最高。',
+    storyEn: 'Ancient saying: "One salvia equals four remedies." Shandong salvia has the highest tanshinone and salvianolic acid content in China.',
+    gradient: 'linear-gradient(135deg, #a8323a, #7a1e26)'
+  },
+  {
+    emoji: '🌿', nameZh: '西洋参', nameEn: 'Ginseng',
+    originZh: '山东文登 · 昆嵛山', originEn: 'Wendeng, Shandong',
+    personaZh: '远渡重洋而来的异乡客，在文登的山风里扎下了根。他带着人参家族的高贵血脉，却选择在齐鲁大地上重新生长。',
+    personaEn: 'A traveler from across the ocean, rooted in Wendeng’s mountain winds. Bearing the noble lineage of the ginseng family.',
+    storyZh: '《本草从新》载西洋参“补肺降火，生津液，除烦倦”。文登地处昆嵛山南麓，气候温和、土质疏松，恰好复刻了西洋参原产地的生长条件。',
+    storyEn: 'Wendeng’s mild climate and loose soil perfectly replicate the native growing conditions of American ginseng.',
+    gradient: 'linear-gradient(135deg, #4a7c6f, #2e554a)'
+  },
+  {
+    emoji: '💛', nameZh: '黄芩', nameEn: 'Scutellaria',
+    originZh: '山东莒县 · 泰沂山区', originEn: 'Juxian, Shandong',
+    personaZh: '一身金黄的少年，眉眼间带着清苦之气。他从不避讳自己的“苦”，因为苦是他的力量。他说：“能让人清醒的，从来不是甜。”',
+    personaEn: 'A youth in golden robes, with a bitter clarity in his eyes. He never hides his bitterness — for bitterness is his power.',
+    storyZh: '《神农本草经》列黄芩为中品，称“主诸热黄疸，肠澼泄痢”。山东泰沂山区所产黄芩根条粗壮、色黄质坚，为黄芩中的上品。',
+    storyEn: 'Shennong’s Herbal Classic lists scutellaria as medium grade. Shandong’s mountain-grown scutellaria has thick, firm, yellow roots of top quality.',
+    gradient: 'linear-gradient(135deg, #c9a05c, #9a733a)'
+  },
+  {
+    emoji: '🤍', nameZh: '北沙参', nameEn: 'Glehnia',
+    originZh: '山东莱阳 · 五龙河畔', originEn: 'Laiyang, Shandong',
+    personaZh: '温润如玉的少女，肤色白皙，气质清冷。她生在莱阳的沙壤土中，吸足了五龙河的水汽。她不争不抢，只是安静地养阴润肺，做一个温柔的守护者。',
+    personaEn: 'A maiden as gentle as jade, fair-skinned and cool in temperament. Born in Laiyang’s sandy soil, nourished by the Wulong River.',
+    storyZh: '《本草纲目》将沙参归入草部，言其“清肺火，治久咳肺痿”。莱阳北沙参因“最道地”而闻名，是山东道地药材中“以产地定品质”的典型代表。',
+    storyEn: 'Compendium of Materia Medica notes glehnia clears lung heat. Laiyang glehnia is famous as the most authentic, a model of terroir-defining quality.',
+    gradient: 'linear-gradient(135deg, #b8c4bc, #8a9a92)'
+  },
+  {
+    emoji: '🍎', nameZh: '山楂', nameEn: 'Hawthorn',
+    originZh: '山东青州 · 仰天山', originEn: 'Qingzhou, Shandong',
+    personaZh: '红彤彤的圆脸姑娘，笑起来眼睛弯成月牙。她是十味中最接地气的一个——既是药，也是果；既在药房里，也在糖葫芦串上。',
+    personaEn: 'A round-faced girl in crimson red, smiling with crescent eyes. Both medicine and fruit, in pharmacies and on candy sticks.',
+    storyZh: '《本草纲目》载：“山楂，化饮食，消肉积癥瘕，痰饮痞满吞酸，滞血痛胀。”青州山楂药食两用，既是道地药材，也是齐鲁民间饮食文化的一部分。',
+    storyEn: 'Compendium of Materia Medica notes hawthorn aids digestion. Qingzhou hawthorn is both medicine and food, part of Shandong’s folk food culture.',
+    gradient: 'linear-gradient(135deg, #c0392b, #8e2118)'
+  },
+  {
+    emoji: '🦂', nameZh: '全蝎', nameEn: 'Scorpion',
+    originZh: '山东青州 · 仰天山', originEn: 'Qingzhou, Shandong',
+    personaZh: '沉默寡言的猎手，藏身于青州的石缝与瓦砾之间。他有毒，但毒亦是药。他最骄傲的事，是《证类本草》里那句“出青州者良”。',
+    personaEn: 'A silent hunter hiding among Qingzhou’s rocks and rubble. Venomous, yet venom is medicine. His proudest line: "Those from Qingzhou are finest."',
+    storyZh: '《证类本草》载：“蝎，出青州者良。”青州全蝎以体形完整、色黄褐、盐分适中著称，是山东道地药材中唯一的动物药代表。',
+    storyEn: 'Classified Materia Medica states: "Scorpions from Qingzhou are superior." It is the only animal-derived authentic herb of Shandong.',
+    gradient: 'linear-gradient(135deg, #6b5b4a, #3d3228)'
+  },
+  {
+    emoji: '🐸', nameZh: '蟾酥', nameEn: 'Toad Secretion',
+    originZh: '山东莒南 · 沭河两岸', originEn: 'Junan, Shandong',
+    personaZh: '貌不惊人却身怀绝技的隐士。他有一层粗糙的皮，却藏着雪白的“宝”。端午的清晨，是他一生中最重要的时刻。',
+    personaEn: 'An unassuming hermit with hidden skills. Rough-skinned, yet holding a snowy treasure. Dragon Boat dawn is his most important moment.',
+    storyZh: '《本草纲目》载蟾酥“治发背疔疮，一切恶肿”。莒南蟾酥以“光东酥”之名享誉药界，是山东动物类道地药材的又一代表。',
+    storyEn: 'Compendium of Materia Medica notes toad secretion treats abscesses. Junan toad secretion is famous as "Guangdong Su" in herbal circles.',
+    gradient: 'linear-gradient(135deg, #5a7a5a, #365436)'
+  },
+  {
+    emoji: '🍈', nameZh: '瓜蒌', nameEn: 'Trichosanthes',
+    originZh: '山东长清 · 马山', originEn: 'Changqing, Shandong',
+    personaZh: '圆润饱满的中年人，笑容宽厚。他挂在藤上时是青的，熟了是橙红的。他的一生都在做一件事——把胸中的郁结化开。',
+    personaEn: 'A round, full-bodied man with a generous smile. Green on the vine, orange-red when ripe. His life’s work: to dissolve stagnation in the chest.',
+    storyZh: '《本草纲目》载瓜蒌“润肺燥，降火，治咳嗽，涤痰结”。长清马山瓜蒌为山东道地药材，全瓜蒌、瓜蒌皮、瓜蒌仁、天花粉均可入药，一物多用。',
+    storyEn: 'Compendium of Materia Medica notes trichosanthes moistens lungs and resolves phlegm. Every part of the plant is usable medicine.',
+    gradient: 'linear-gradient(135deg, #c9a05c, #a07830)'
+  }
+];
+
+const modalOverlay = document.getElementById('modalOverlay');
+const modalAvatar = document.getElementById('modalAvatar');
+const modalName = document.getElementById('modalName');
+const modalOrigin = document.getElementById('modalOrigin');
+const modalPersona = document.getElementById('modalPersona');
+const modalStory = document.getElementById('modalStory');
+
+function openModal(idx) {
+  const item = modalData[idx];
+  modalAvatar.textContent = item.emoji;
+  modalAvatar.style.background = item.gradient;
+  if(currentLang === 'zh'){
+    modalName.textContent = item.nameZh;
+    modalOrigin.textContent = item.originZh;
+    modalPersona.textContent = item.personaZh;
+    modalStory.textContent = item.storyZh;
+  }else{
+    modalName.textContent = item.nameEn;
+    modalOrigin.textContent = item.originEn;
+    modalPersona.textContent = item.personaEn;
+    modalStory.textContent = item.storyEn;
+  }
+  modalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// 导航滚动
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// 滚动渐入
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// 首页粒子
+const particleContainer = document.getElementById('particles');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = 2 + Math.random() * 5;
+  p.style.width = size + 'px';
+  p.style.height = size + 'px';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.bottom = '-10px';
+  p.style.animationDuration = (8 + Math.random() * 14) + 's';
+  p.style.animationDelay = Math.random() * 10 + 's';
+  particleContainer.appendChild(p);
+}
+
+// Canvas星点
+const canvas = document.getElementById('heroCanvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = document.querySelector('.hero').offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+for (let i = 0; i < 80; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5,
+    alpha: Math.random() * 0.5 + 0.1,
+    speed: Math.random() * 0.15 + 0.03
+  });
+}
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.y -= s.speed;
+    if (s.y < 0) { s.y = canvas.height; s.x = Math.random() * canvas.width; }
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(201,160,92,${s.alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// 全站双语切换
+let currentLang = 'zh';
+function toggleLang() {
+  const body = document.body;
+  const btn = document.querySelector('.lang-btn');
+  if (currentLang === 'zh') {
+    currentLang = 'en';
+    body.classList.remove('lang-zh');
+    body.classList.add('lang-en');
+    btn.innerText = '中';
+    document.documentElement.lang = 'en';
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.innerText = el.dataset.en;
+    });
+  } else {
+    currentLang = 'zh';
+    body.classList.remove('lang-en');
+    body.classList.add('lang-zh');
+    btn.innerText = 'EN';
+    document.documentElement.lang = 'zh-CN';
+    document.querySelectorAll('[data-zh]').forEach(el => {
+      el.innerText = el.dataset.zh;
+    });
+  }
+}
+
+// 平滑滚动
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+<script id="herbalAtlasScript">
+/* Original origin labels are retained. Shapes are landscape illustrations. */
+(() => {
+ 'use strict';
+ const root = document.getElementById('herbalAtlas');
+ if (!root) return;
+ const entries = [
+  {id:0,group:'mountain',x:354,y:479,px:400,py:446,short:'平邑',shortEn:'Pingyi',en:'Honeysuckle',latin:'Lonicera japonica',desc:'细长的花蕾与舒展的花冠，交织出淡金和乳白。以一枝花叶，呈现沂蒙本草的轻盈。',descEn:'Slender buds and open flowers intertwine in pale gold and ivory, a delicate botanical specimen from Pingyi.'},
+  {id:1,group:'plain',x:190,y:344,px:264,py:382,short:'东阿',shortEn:'Dong’e',en:'Ejiao',latin:'Asini Corii Colla',desc:'乌褐色胶块，边缘齐整、表面温润。标本图示以层叠的胶片，表现东阿阿胶的传统形态。',descEn:'Dark brown blocks with clean edges and a soft sheen. Stacked pieces depict the traditional form of Dong’e ejiao.'},
+  {id:2,group:'mountain',x:554,y:402,px:558,py:450,short:'莒县',shortEn:'Juxian',en:'Salvia',latin:'Salvia miltiorrhiza',desc:'红褐色根条自然分叉，纵向纹理清晰。舒展的根须，是这枚丹参标本的视觉线索。',descEn:'Branching reddish-brown roots carry long surface grooves. The spreading rootlets give this specimen its distinctive silhouette.'},
+  {id:3,group:'east',x:883,y:179,px:882,py:230,short:'文登',shortEn:'Wendeng',en:'American ginseng',latin:'Panax quinquefolius',desc:'淡米色切片露出细密的放射状纹理，外缘保留较深的根皮，呈现参片温润的层次。',descEn:'Ivory slices reveal fine radial markings, surrounded by a darker outer edge, shown here as a small specimen arrangement.'},
+  {id:4,group:'mountain',x:657,y:458,px:562,py:454,short:'莒县',shortEn:'Juxian',en:'Scutellaria',latin:'Scutellaria baicalensis',desc:'黄褐色根条与金黄色横切面并置。粗细不一的纹路，保留了根部质朴的标本感。',descEn:'Ochre root pieces sit beside a golden cross-section. Uneven grooves preserve the character of a dried root specimen.'},
+  {id:5,group:'east',x:754,y:278,px:744,py:304,short:'莱阳',shortEn:'Laiyang',en:'Glehnia',latin:'Glehnia littoralis',desc:'细长的浅色根条略带弯曲，表面有纵沟与细小根痕，以疏朗的排列呈现莱阳参的形态。',descEn:'Long pale roots curve gently, with fine grooves and rootlet marks. A loose arrangement highlights the specimen’s slender form.'},
+  {id:6,group:'mountain',x:492,y:253,px:479,py:327,short:'青州',shortEn:'Qingzhou',en:'Hawthorn',latin:'Crataegus pinnatifida',desc:'一枚红果配上带皮切片，红褐色边缘包裹浅色果肉与果核，呈现山楂鲜果和干片的对照。',descEn:'A red fruit accompanies dried slices. Russet skin surrounds pale flesh and seeds, contrasting the whole fruit with its cut form.'},
+  {id:7,group:'mountain',x:443,y:365,px:483,py:331,short:'青州',shortEn:'Qingzhou',en:'Scorpion',latin:'Scorpio',desc:'节状躯体、双螯与弯曲尾部，构成全蝎鲜明的轮廓。采用暖赭色线描，呼应实体标本展陈。',descEn:'A segmented body, paired claws and a curved tail form the distinctive silhouette, illustrated in the warm ochres of a specimen display.'},
+  {id:8,group:'south',x:507,y:534,px:542,py:501,short:'莒南',shortEn:'Junan',en:'Toad secretion',latin:'Bufonis Venenum',desc:'以蟾蜍形象标示蟾酥的动物来源，呼应参考展板中的形象贴纸；图示并非蟾酥成品外观。',descEn:'A toad represents the animal source of this specimen, echoing the reference display. It does not depict the finished secretion product.'},
+  {id:9,group:'plain',x:308,y:300,px:301,py:370,short:'长清',shortEn:'Changqing',en:'Trichosanthes',latin:'Trichosanthes kirilowii',desc:'圆润果实与卷曲藤蔓相映，暖金色果皮带有细微纹理。用完整植株片段表达瓜蒌的自然形态。',descEn:'A rounded golden fruit is paired with a curling tendril and leaf, presenting the natural form of this climbing plant.'}
+ ];
+ const markers = document.getElementById('atlasMarkers');
+ const shelf = document.getElementById('atlasShelf');
+ const ns = 'http://www.w3.org/2000/svg';
+ let selected=0, filter='all';
+ const lang=()=>document.documentElement.lang==='en'?'en':'zh';
+ const artwork=id=>'<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><use href="#herb-'+id+'"></use></svg>';
+ const itemElement=(container,id)=>container.querySelector('[data-herb="'+id+'"]');
+ entries.forEach(item=>{
+   const g=document.createElementNS(ns,'g');
+   g.classList.add('atlas-marker');g.dataset.herb=String(item.id);g.setAttribute('role','button');g.setAttribute('tabindex','0');
+   g.innerHTML='<path class="marker-line" d="M'+item.x+' '+(item.y+28)+'L'+item.px+' '+item.py+'"></path><circle class="marker-pin" cx="'+item.px+'" cy="'+item.py+'" r="3.5"></circle><g transform="translate('+item.x+','+item.y+')"><rect class="marker-halo" x="-56" y="-49" width="112" height="129" rx="44"></rect><svg class="marker-art" x="-45" y="-48" width="90" height="90" viewBox="0 0 120 120" aria-hidden="true"><use href="#herb-'+item.id+'"></use></svg><text class="marker-label" y="56" text-anchor="middle"></text><text class="marker-origin" y="72" text-anchor="middle"></text></g>';
+   g.addEventListener('click',()=>select(item.id));
+   g.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();select(item.id)}});
+   markers.appendChild(g);
+   const b=document.createElement('button');b.type='button';b.className='atlas-shelf-item';b.dataset.herb=String(item.id);b.innerHTML=artwork(item.id)+'<span></span>';b.addEventListener('click',()=>select(item.id));shelf.appendChild(b);
+ });
+ function select(id,announce=true){
+   selected=id;const item=entries[id],original=modalData[id],en=lang()==='en';
+   document.getElementById('atlasNumber').textContent=String(id+1).padStart(2,'0')+' / 10';
+   document.getElementById('atlasVisual').innerHTML=artwork(id);
+   document.getElementById('atlasName').textContent=en?item.en:original.nameZh;
+   document.getElementById('atlasLatin').textContent=item.latin;
+   document.getElementById('atlasOrigin').textContent=en?original.originEn:original.originZh;
+   document.getElementById('atlasDescription').textContent=en?item.descEn:item.desc;
+   root.querySelectorAll('[data-herb]').forEach(el=>{const on=Number(el.dataset.herb)===id;el.setAttribute('aria-pressed',String(on));el.classList.toggle('is-selected',on)});
+   if(announce) document.getElementById('atlasLive').textContent=(en?item.en+' · '+original.originEn:original.nameZh+' · '+original.originZh);
+ }
+ function updateLanguage(){
+   const en=lang()==='en';
+   root.querySelectorAll('svg [data-zh]').forEach(el=>{el.textContent=en?el.dataset.en:el.dataset.zh});
+   entries.forEach(item=>{const name=en?item.en:modalData[item.id].nameZh;const g=itemElement(markers,item.id);g.querySelector('.marker-label').textContent=name;g.querySelector('.marker-origin').textContent=en?item.shortEn:item.short;g.setAttribute('aria-label',(en?'View ':'查看')+name+' · '+(en?item.shortEn:item.short));const b=itemElement(shelf,item.id);b.querySelector('span').textContent=name;b.setAttribute('aria-label',(en?'View ':'查看')+name)});
+   root.setAttribute('aria-label',en?'Interactive Shandong herb atlas':'山东本草产地互动图');
+   document.getElementById('atlasMapTitle').textContent=en?'Illustrated Shandong herb origins':'山东鲁十味产地示意图';
+   document.getElementById('atlasMapDesc').textContent=en?'Select a specimen to see its notes. Shapes illustrate landscapes, not administrative borders. The specimen buttons below provide an alternative.':'选择药材图示查看标本说明。地图为艺术化产地示意，色块不是行政边界。也可通过下方十味药材按钮选择。';
+   root.querySelector('.atlas-detail').setAttribute('aria-label',en?'Selected specimen':'当前药材标本');
+   shelf.setAttribute('aria-label',en?'Index of ten specimens':'十味药材标本索引');
+   root.querySelector('.atlas-filters').setAttribute('aria-label',en?'Filter by landscape':'按产地景观筛选');
+   select(selected,false);
+ }
+ root.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
+   filter=button.dataset.filter;root.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+   entries.forEach(item=>{const show=filter==='all'||item.group===filter;const g=itemElement(markers,item.id);g.classList.toggle('is-muted',!show);g.setAttribute('tabindex',show?'0':'-1');g.setAttribute('aria-hidden',String(!show));itemElement(shelf,item.id).hidden=!show});
+   if(filter!=='all'&&entries[selected].group!==filter)select(entries.find(x=>x.group===filter).id);
+ }));
+ let returnFocus=null;
+ document.getElementById('atlasOpen').addEventListener('click',()=>{returnFocus=document.activeElement;openModal(selected);document.getElementById('modalClose').focus()});
+ new MutationObserver(()=>{if(!modalOverlay.classList.contains('active')&&returnFocus){const target=returnFocus;returnFocus=null;target.focus()}}).observe(modalOverlay,{attributes:true,attributeFilter:['class']});
+ new MutationObserver(updateLanguage).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+ updateLanguage();
+})();
+
+</script>
+</body>
+</html>
